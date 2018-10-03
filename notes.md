@@ -1,3 +1,50 @@
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+1, "d", "p", "n", 99, "o", "e", "a", "t", 1,
+1, "o", "m", "i", 99, "n", "k", 99, "d", 1,
+1, "i", "k", "t", "r", 99, "l", "d", "r", 1,
+1, "h", "r", "e", "s", "t", "d", "a", "e", 1,
+1, "f", "a", "r", "e", "t", "e", "e", "i", 1,
+1, "t", "x", "e", "d", "o", "s", "r", "n", 1,
+1, "i", "a", "c", 99, "r", "u", "n", "s", 1,
+1, "a", "e", "l", "c", "a", "x", "a", "u", 1,
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+experimental
+undertake
+counselor
+extent
+aids
+radar
+draft
+sick
+idaho
+heron
+
+[0,0,0,0,0,0,0,0,0,0,
+1,"o","w","c","a","u","y","i","v",1,
+1,"n","a","r","r","e","n","j","n",1,
+1,"a","d","e","e","y","t","r","i",1,
+1,"r","s","t","l","s","r","u","p",1,
+1,"i","e","a","r","t","i","q","a",1,
+1,"b","a","c","c","v","l","e","a",1,
+1,"a","m","r","t","a","l","a","n",1,
+1,"i","n","c","e","l","o","a","m",1,
+0,0,0,0,0,0,0,0,0,0]
+
+preliminary
+quantity
+bacteria
+caracal
+navajo
+cruel
+side
+tern
+serval
+woman
+
+experimentalundertakecounselorextentaidsradardraftsickidahoheron
+
+
 javascript
 
 install node
