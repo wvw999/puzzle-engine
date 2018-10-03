@@ -6,15 +6,16 @@ class Board
     @steps = [-11, -10, -9, -1, 1, 9, 10, 11]
   end
 
-  def make_board(wordlist)
+  def make_board(wordlist) # clones board and attempts to place each letter on board
     @blank_board = @empty_board.clone
     wordlist.each do |word|
       list_of_ninenines
-      word_space_loop(word.length, word)
+      word_spaces_loop(word.length)
+      update_blank_board(word)
     end
   end
 
-  def list_of_ninenines
+  def list_of_ninenines # builds list of 99 values on board at the beginning of each word placement loop
     @list_of_ninenine = []
     @valid_spaces.each do |ninenine|
       if @blank_board[ninenine] == 99
@@ -23,38 +24,62 @@ class Board
     end
   end
 
-  def word_space_loop(length_of_word, candidate_word)
-    candidate_word_array = []
-    candidate_word_array.push(@list_of_ninenine)
-    @list_of_ninenine.delete(candidate_word_array[-1])
-    (length_of_word-1).times do |pickspaces|
+  def word_spaces_loop(length_of_word) # at the end of this loop, should have an array with word.length number of board index locations inside
+    @candidate_word_array = []
+    @candidate_word_array.push(@list_of_ninenine.sample)
+    @list_of_ninenine.delete(@candidate_word_array[-1]) # places the first letter of the word in the array so the loop has a -1 to work with
 
+    (length_of_word-1).times do |pickspaces|
+      @list_of_neighbors = []
+      @steps.each do |buildneighbors|
+        if @list_of_ninenine.include?(@candidate_word_array[-1] + buildneigbors)
+          @list_of_neighbors.push(@candidate_word_array[-1] + buildneigbors) #builds array of index locations in @blank_board
+        end
+      end
+      if @list_of_neighbors
+        @candidate_word_array.push(@list_of_neighbors.sample)
+        @list_of_ninenine.delete(@candidate_word_array[-1]) #removes the newly selected next space on board from the array of candidates in list_of_ninenine
+      else
+        binding.pry
+      end
     end
+
+  end
+
+  def update_blank_board(word) # takes the candidate word array and adds the letters from the word to the board
+    word_letters = word.split("")
+    word_length = word.length
+    word_index = 0
+    word_length.times do |updateboard|
+      @blank_board[@@candidate_word_array[word_index]] = word_letters[word_index]
+      word_index ++
+    end
+    binding_pry
   end
 
   # pseudocode begins
-
-  def thingy
-
-      clone of blank board 'candidate board' X #plain old copy of empty board to begin the board building process
-
-        'list of 99s' from 'candidate board' X #this is the index of a space with 99 from the candidate board
-
-        loop init
-          declare 'candidate word array'
-          select space 1 randomly from 'list of 99s'
-          push space 1 to 'candidate word array'
-          remove space 1 from 'list of 99s'
-          loop begin
-            build new array 'list of neighbors' of 'candidate word array'[-1]
-            select subsequent space randomly from 'list of neighbors', push to 'candidate word array'
-            remove subsequent space from 'list of 99s'
-            (do until end of word or no neighbors found)
-          end loop
-        end loop
-
-        at the end of each loop, push values from 'candidate word array' to 'candidate board'
-
-  end
+  # 
+  # def thingy
+  #
+  #     clone of blank board 'candidate board' X #plain old copy of empty board to begin the board building process
+  #
+  #       'list of 99s' from 'candidate board' X #this is the index of a space with 99 from the candidate board
+  #
+  #       loop init
+  #         declare 'candidate word array'
+  #         select space 1 randomly from 'list of 99s'
+  #         push space 1 to 'candidate word array'
+  #         remove space 1 from 'list of 99s'
+  #         loop begin
+  #           build new array 'list of neighbors' of 'candidate word array'[-1]
+  #           select subsequent space randomly from 'list of neighbors', push to 'candidate word array'
+  #           remove subsequent space from 'list of 99s'
+  #           (do until end of word or no neighbors found)
+  #         end loop
+  #       end loop
+  #
+  #       at the end of each loop, push values from 'candidate word array' to 'candidate board'
+  #
+  # end
 
 end
