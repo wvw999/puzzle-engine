@@ -32,6 +32,8 @@ class Board
       puts word
       list_of_ninenines
       word_spaces_loop(word.length)
+      puts "updating blank board with word: "
+      puts word
       update_blank_board(word)
     end
   end
@@ -59,13 +61,13 @@ class Board
       #builds array of index locations in @blank_board
       @steps.each do |buildneighbors|
         if @list_of_ninenine.include?(@candidate_word_array[-1] + buildneighbors)
-          @list_of_neighbors.push(@candidate_word_array[-1] + buildneighbors)
+          if (@candidate_word_array[-1] + buildneighbors) != nil
+            @list_of_neighbors.push(@candidate_word_array[-1] + buildneighbors)
+          end
         end
+        print buildneighbors
+        print ", "
       end
-      print @list_of_neighbors
-      puts " "
-      puts @loop_counter
-      puts " "
       if @list_of_ninenine.length >= 0
         # if the neighbor check fails the array will be empty, look again for the +10 values using second array of plus/minus values
         @stepsupone.each do |addtoneighbors|
@@ -105,6 +107,19 @@ class Board
           end
         end
       end
+      puts " "
+      puts "this is nine nine "
+      print @list_of_ninenine
+      puts " "
+      puts "this is candidate word array "
+      print @candidate_word_array
+      puts " "
+      puts "this is list of neighbors "
+      print @list_of_neighbors
+      puts " "
+      puts "this is loop counter "
+      puts @loop_counter
+      puts " "
 
       # removes the newly selected next space on board from the array of candidates in list_of_ninenine
       @candidate_word_array.push(@list_of_neighbors.sample)
@@ -119,6 +134,10 @@ class Board
     word_length = word.length
     word_index = 0
     word_length.times do |updateboard|
+      puts "this is blank board"
+      print @blank_board
+      puts "this is candidate word array"
+      print @candidate_word_array
       @blank_board[@candidate_word_array[word_index]] = word_letters[word_index]
       word_index += 1
     end

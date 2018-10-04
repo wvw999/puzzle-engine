@@ -42,6 +42,28 @@ tern
 serval
 woman
 
+[0,0,0,0,0,0,0,0,0,0,
+1,"w","i","f","n","i","m","s","a",1,
+1,"a","c","r","l","e","m","a","t",1,
+1,"v","e","d","t","l","p","k","a",1,
+1,"l","i","e","m","e","l","t","b",1,
+1,"n","e","e","i","e","p","o","l",1,
+1,"l","x","a","c","s","n","i","n",1,
+1,"y","t","l","e","e","s","t","t",1,
+1,"l","b","a","e","e","o","a","o",1,
+0,0,0,0,0,0,0,0,0,0]
+
+implementation
+relatively
+waxbill
+species
+feel
+alaska
+bottom
+candle
+teen
+
+
 experimentalundertakecounselorextentaidsradardraftsickidahoheron
 
 
