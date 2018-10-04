@@ -34,7 +34,9 @@ class Board
       word_spaces_loop(word.length)
       puts "updating blank board with word: "
       puts word
-      update_blank_board(word)
+      unless @list_of_neighbors == []
+        update_blank_board(word)
+      end
     end
   end
 
@@ -72,12 +74,16 @@ class Board
         # if the neighbor check fails the array will be empty, look again for the +10 values using second array of plus/minus values
         @stepsupone.each do |addtoneighbors|
           if @list_of_ninenine.include?(@candidate_word_array[-1] + addtoneighbors)
-            @list_of_neighbors.push(@candidate_word_array[-1] + addtoneighbors)
+            if (@candidate_word_array[-1] + addtoneighbors) != nil
+              @list_of_neighbors.push(@candidate_word_array[-1] + addtoneighbors)
+            end
           end
         end
         @stepsdownone.each do |addtoneighbors|
           if @list_of_ninenine.include?(@candidate_word_array[-1] + addtoneighbors)
-            @list_of_neighbors.push(@candidate_word_array[-1] + addtoneighbors)
+            if (@candidate_word_array[-1] + addtoneighbors) != nil
+              @list_of_neighbors.push(@candidate_word_array[-1] + addtoneighbors)
+            end
           end
         end
       end
@@ -85,12 +91,16 @@ class Board
         # if the neighbor check fails the array will be empty, look again for the +10 values using second array of plus/minus values
         @stepsuptwo.each do |addtoneighbors|
           if @list_of_ninenine.include?(@candidate_word_array[-1] + addtoneighbors)
-            @list_of_neighbors.push(@candidate_word_array[-1] + addtoneighbors)
+            if (@candidate_word_array[-1] + addtoneighbors) != nil
+              @list_of_neighbors.push(@candidate_word_array[-1] + addtoneighbors)
+            end
           end
         end
         @stepsdowntwo.each do |addtoneighbors|
           if @list_of_ninenine.include?(@candidate_word_array[-1] + addtoneighbors)
-            @list_of_neighbors.push(@candidate_word_array[-1] + addtoneighbors)
+            if (@candidate_word_array[-1] + addtoneighbors) != nil
+              @list_of_neighbors.push(@candidate_word_array[-1] + addtoneighbors)
+            end
           end
         end
       end
@@ -98,12 +108,16 @@ class Board
         # if the neighbor check fails the array will be empty, look again for the +10 values using second array of plus/minus values
         @stepsupthree.each do |addtoneighbors|
           if @list_of_ninenine.include?(@candidate_word_array[-1] + addtoneighbors)
-            @list_of_neighbors.push(@candidate_word_array[-1] + addtoneighbors)
+            if (@candidate_word_array[-1] + addtoneighbors) != nil
+              @list_of_neighbors.push(@candidate_word_array[-1] + addtoneighbors)
+            end
           end
         end
         @stepsdownthree.each do |addtoneighbors|
           if @list_of_ninenine.include?(@candidate_word_array[-1] + addtoneighbors)
-            @list_of_neighbors.push(@candidate_word_array[-1] + addtoneighbors)
+            if (@candidate_word_array[-1] + addtoneighbors) != nil
+              @list_of_neighbors.push(@candidate_word_array[-1] + addtoneighbors)
+            end
           end
         end
       end
@@ -134,7 +148,7 @@ class Board
     word_length = word.length
     word_index = 0
     word_length.times do |updateboard|
-      puts "this is blank board"
+      puts "\nthis is blank board"
       print @blank_board
       puts "this is candidate word array"
       print @candidate_word_array
