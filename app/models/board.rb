@@ -14,24 +14,29 @@ class Board
     @list_of_neighbors = []
   end
 
-  def make_board(wordlist,try_counter,board_complete)
-    @board_is_complete = board_complete
-    @word_loop_counter = try_counter
-    @word_list = wordlist
+  def make_board(word_list,try_counter,board_is_complete)
+    @board_is_complete = board_is_complete
+    @try_counter = try_counter
+    @word_list = word_list
     @blank_board = @empty_board.clone
-    # begin steps of building board here by getting all 99 values on board
-    list_of_ninenines
     # take each word in wordlist and loop over each letter in it
-    while @board_is_complete == 0 do
-      @word_list.length.times do
-        letter_builder
+    while @try_counter <= 20000 || @board_is_complete == 0 do
+      #needs prep for word spaces selector
+      @word_list.each do |processword|
+        # begin steps of building board here by getting all 99 values on board
+        list_of_ninenines
+        # sends word length to selector
+        word_spaces_selector(processword.split("").length)
+        # sends completed word to board_updater
+        board_updater
+        puts "looped, went over #{processword}"
       end
     end
-    return @blank_board, @word_loop_counter, @board_is_complete
+    return @blank_board, @try_counter, @board_is_complete, @word_list
   end
 
   def board_is_complete
-    if list_of_ninenines == [] || @word_loop_counter == 20000
+    if list_of_ninenines == [] || @try_counter >= 20000
       @board_is_complete = 1
       @word_loop_counter = 20000
     end
@@ -48,137 +53,112 @@ class Board
     end
   end
 
+  def word_spaces_selector(lengthofword)
+    # binding.pry
+    @candidate_word_array = []
+    # first step selects the first letter, it is random
+    @candidate_word_array.push(@list_of_ninenine.sample)
+    # places the first letter of the word in the array so the loop has a -1 to work with
+    @list_of_ninenine.delete(@candidate_word_array[-1])
+    # loops over remaining letters in word to pick neighboring spaces on board
+    (lengthofword - 1).times do |pickspaces|
+      @list_of_neighbors = []
+      #builds array of index locations in @blank_board
+      @steps.each do |buildneighbors|
+        if @list_of_ninenine.include?(@candidate_word_array[-1] + buildneighbors)
+          @list_of_neighbors.push(@candidate_word_array[-1] + buildneighbors)
+        end
+      end
+      if @list_of_neighbors.length <= 0
+        # if the neighbor check fails the array will be empty, look again for the +10 values using second array of plus/minus values
+        stepsone
+      end
+      if @list_of_neighbors.length <= 0
+        # if the neighbor check fails the array will be empty, look again for the +10 values using second array of plus/minus values
+        stepstwo
+      end
+      if @list_of_neighbors.length <= 0
+        # if the neighbor check fails the array will be empty, look again for everything that's left
+        stepsthree
+      end
+      # puts " "
+      #   puts "this is nine nine "
+      #   print @list_of_ninenine
+      #   puts " "
+      #   puts "this is candidate word array "
+      #   print @candidate_word_array
+      #   puts " "
+      #   puts "this is list of neighbors "
+      #   print @list_of_neighbors
+      #   puts " "
+      #   puts "this is loop counter "
+      #   puts @loop_counter
+      # puts " "
+      # removes the newly selected next space on board from the array of candidates in list_of_ninenine
+      @candidate_word_array.push(@list_of_neighbors.sample)
+      @list_of_ninenine.delete(@candidate_word_array[-1])
+      if @list_of_neighbors == [] || @list_of_neighbors.include?(nil)
+        return false
+      end
+    end
+    @loop_counter += 1
+    if @candidate_word_array.include?(nil)
+      return false
+    end
+    @candidate_word_array
+  end
 
-  # # runs through the steps needed to place one word on the board, loops over all words
-  # def loop_manager(wordlist)
-  #   wordlist.each do |word|
-  #     puts " "
-  #     puts word
-  #     list_of_ninenines
-  #     word_spaces_loop(word.length)
-  #     puts "updating blank board with word: "
-  #     puts word
-  #     unless @list_of_neighbors == []
-  #       update_blank_board(word)
-  #     end
-  #   end
-  # end
-  #
-  # # builds list of 99 values on board at the beginning of each word placement loop
-  # def list_of_ninenines
-  #   @list_of_ninenine = []
-  #   @valid_spaces.each do |ninenine|
-  #     if @blank_board[ninenine] == 99
-  #       @list_of_ninenine.push(ninenine)
-  #     end
-  #   end
-  # end
-  #
-  # # at the end of this loop, should have an array with word.length number of board index locations inside
-  # def word_spaces_loop(length_of_word)
-  #   @candidate_word_array = []
-  #   @candidate_word_array.push(@list_of_ninenine.sample)
-  #   # places the first letter of the word in the array so the loop has a -1 to work with
-  #   @list_of_ninenine.delete(@candidate_word_array[-1])
-  #
-  #   (length_of_word-1).times do |pickspaces|
-  #     @list_of_neighbors = []
-  #
-  #     #builds array of index locations in @blank_board
-  #     @steps.each do |buildneighbors|
-  #       if @list_of_ninenine.include?(@candidate_word_array[-1] + buildneighbors)
-  #         if (@candidate_word_array[-1] + buildneighbors) != nil
-  #           @list_of_neighbors.push(@candidate_word_array[-1] + buildneighbors)
-  #         end
-  #       end
-  #       print buildneighbors
-  #       print ", "
-  #     end
-  #     if @list_of_ninenine.length >= 0
-  #       # if the neighbor check fails the array will be empty, look again for the +10 values using second array of plus/minus values
-  #       @stepsupone.each do |addtoneighbors|
-  #         if @list_of_ninenine.include?(@candidate_word_array[-1] + addtoneighbors)
-  #           if (@candidate_word_array[-1] + addtoneighbors) != nil
-  #             @list_of_neighbors.push(@candidate_word_array[-1] + addtoneighbors)
-  #           end
-  #         end
-  #       end
-  #       @stepsdownone.each do |addtoneighbors|
-  #         if @list_of_ninenine.include?(@candidate_word_array[-1] + addtoneighbors)
-  #           if (@candidate_word_array[-1] + addtoneighbors) != nil
-  #             @list_of_neighbors.push(@candidate_word_array[-1] + addtoneighbors)
-  #           end
-  #         end
-  #       end
-  #     end
-  #     if @list_of_ninenine.length >= 0
-  #       # if the neighbor check fails the array will be empty, look again for the +10 values using second array of plus/minus values
-  #       @stepsuptwo.each do |addtoneighbors|
-  #         if @list_of_ninenine.include?(@candidate_word_array[-1] + addtoneighbors)
-  #           if (@candidate_word_array[-1] + addtoneighbors) != nil
-  #             @list_of_neighbors.push(@candidate_word_array[-1] + addtoneighbors)
-  #           end
-  #         end
-  #       end
-  #       @stepsdowntwo.each do |addtoneighbors|
-  #         if @list_of_ninenine.include?(@candidate_word_array[-1] + addtoneighbors)
-  #           if (@candidate_word_array[-1] + addtoneighbors) != nil
-  #             @list_of_neighbors.push(@candidate_word_array[-1] + addtoneighbors)
-  #           end
-  #         end
-  #       end
-  #     end
-  #     if @list_of_ninenine.length >= 0
-  #       # if the neighbor check fails the array will be empty, look again for the +10 values using second array of plus/minus values
-  #       @stepsupthree.each do |addtoneighbors|
-  #         if @list_of_ninenine.include?(@candidate_word_array[-1] + addtoneighbors)
-  #           if (@candidate_word_array[-1] + addtoneighbors) != nil
-  #             @list_of_neighbors.push(@candidate_word_array[-1] + addtoneighbors)
-  #           end
-  #         end
-  #       end
-  #       @stepsdownthree.each do |addtoneighbors|
-  #         if @list_of_ninenine.include?(@candidate_word_array[-1] + addtoneighbors)
-  #           if (@candidate_word_array[-1] + addtoneighbors) != nil
-  #             @list_of_neighbors.push(@candidate_word_array[-1] + addtoneighbors)
-  #           end
-  #         end
-  #       end
-  #     end
-  #     puts " "
-  #     puts "this is nine nine "
-  #     print @list_of_ninenine
-  #     puts " "
-  #     puts "this is candidate word array "
-  #     print @candidate_word_array
-  #     puts " "
-  #     puts "this is list of neighbors "
-  #     print @list_of_neighbors
-  #     puts " "
-  #     puts "this is loop counter "
-  #     puts @loop_counter
-  #     puts " "
-  #
-  #     # removes the newly selected next space on board from the array of candidates in list_of_ninenine
-  #     @candidate_word_array.push(@list_of_neighbors.sample)
-  #     @list_of_ninenine.delete(@candidate_word_array[-1])
-  #   end
-  #   @loop_counter += 1
-  # end
-  #
-  # # takes the candidate word array and adds the letters from the word to the board
-  # def update_blank_board(word)
-  #   word_letters = word.split("")
-  #   word_length = word.length
-  #   word_index = 0
-  #   word_length.times do |updateboard|
-  #     puts "\nthis is blank board"
-  #     print @blank_board
-  #     puts "this is candidate word array"
-  #     print @candidate_word_array
-  #     @blank_board[@candidate_word_array[word_index]] = word_letters[word_index]
-  #     word_index += 1
-  #   end
-  # end
+  def stepsone
+    @stepsupone.each do |addtoneighbors|
+      if @list_of_ninenine.include?(@candidate_word_array[-1] + addtoneighbors)
+        @list_of_neighbors.push(@candidate_word_array[-1] + addtoneighbors)
+      end
+    end
+    @stepsdownone.each do |addtoneighbors|
+      if @list_of_ninenine.include?(@candidate_word_array[-1] + addtoneighbors)
+        @list_of_neighbors.push(@candidate_word_array[-1] + addtoneighbors)
+      end
+    end
+  end
 
+  def stepstwo
+    @stepsuptwo.each do |addtoneighbors|
+      if @list_of_ninenine.include?(@candidate_word_array[-1] + addtoneighbors)
+        @list_of_neighbors.push(@candidate_word_array[-1] + addtoneighbors)
+      end
+    end
+    @stepsdowntwo.each do |addtoneighbors|
+      if @list_of_ninenine.include?(@candidate_word_array[-1] + addtoneighbors)
+        @list_of_neighbors.push(@candidate_word_array[-1] + addtoneighbors)
+      end
+    end
+  end
+
+  def stepsthree
+    @stepsupthree.each do |addtoneighbors|
+      if @list_of_ninenine.include?(@candidate_word_array[-1] + addtoneighbors)
+        @list_of_neighbors.push(@candidate_word_array[-1] + addtoneighbors)
+      end
+    end
+    @stepsdownthree.each do |addtoneighbors|
+      if @list_of_ninenine.include?(@candidate_word_array[-1] + addtoneighbors)
+        @list_of_neighbors.push(@candidate_word_array[-1] + addtoneighbors)
+      end
+    end
+  end
+
+  def board_updater
+    #takes candidate word letter locations and adds them to the board
+    @word_index = 0
+    @split_word = @word_list[0].split("")
+    @split_word.length.times do |update|
+      @blank_board[@candidate_word_array[@word_index]] = @split_word[@word_index]
+    end
+    if @blank_board.include?(nil)
+      return false
+    end
+    @word_list.delete_at(0)
+    list_of_ninenines
+    board_is_complete
+  end
 end
