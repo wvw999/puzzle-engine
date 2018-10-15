@@ -16,22 +16,26 @@ class Board
 
   def make_board(wordlist,try_counter,board_complete)
     @board_is_complete = board_complete
-    @word_loop_counter = try_counter
+    @try_counter = try_counter
     @word_list = wordlist
     @blank_board = @empty_board.clone
-    # begin steps of building board here by getting all 99 values on board
-    list_of_ninenines
     # take each word in wordlist and loop over each letter in it
-    while @board_is_complete == 0 do
-      @word_list.length.times do
-        letter_builder
+    while @try_counter <= 20000 || @board_is_complete == 0 do
+      #needs prep for word spaces selector
+      @word_list.each do |processword|
+        # begin steps of building board here by getting all 99 values on board
+        list_of_ninenines
+        # sends word length to selector
+        word_spaces_selector(processword.split("").length)
+        # sends completed word to board_updater
+        board_updater
       end
     end
-    return @blank_board, @word_loop_counter, @board_is_complete
+    return @blank_board, @try_counter, @board_is_complete
   end
 
   def board_is_complete
-    if list_of_ninenines == [] || @word_loop_counter == 20000
+    if list_of_ninenines == [] || @try_counter >= 20000
       @board_is_complete = 1
       @word_loop_counter = 20000
     end
@@ -48,6 +52,20 @@ class Board
     end
   end
 
+  def word_spaces_selector(lengthofword)
+    # nasty mess here
+    @candidate_word_array = []
+    @candidate_word_array.push(@list_of_ninenine.sample)
+    @list_of_ninenine.delete(@candidate_word_array[-1])
+
+  end
+
+  def board_updater
+    #takes candidate word letter locations and adds them to the board
+
+    list_of_ninenines
+    board_is_complete
+  end
 
   # # runs through the steps needed to place one word on the board, loops over all words
   # def loop_manager(wordlist)

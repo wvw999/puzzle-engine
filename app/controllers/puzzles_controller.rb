@@ -6,15 +6,15 @@ class PuzzlesController < ApplicationController
     # json_response(@puzzles)
     @builder = Builder.new
     @wordlist = @builder.initial_word_puller
-    @board = Board.new
     @try_counter = 0
     @board_complete = 0
     while @try_counter <= 20000 || @board_complete == 0 do
+      @board = Board.new
       @complete = @board.make_board(@wordlist, @try_counter, @board_complete)
       @try_counter = @complete[1]
       @board_complete = @complete[2]
     end
-    json_response(@complete)
+    json_response(@complete[0])
     # binding.pry
   end
 
