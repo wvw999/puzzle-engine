@@ -33,10 +33,11 @@ class Board
       success = 0
       while success = 0 do |wordy|
         # clone the blank board - makes throw-away copy of the empty board array
-        # which will be used to build a temporary running model of the board while
+          # which will be used to build a temporary running model of the board while
         # attempts are made to place a word on the board
         @disposable_board = @empty_board.clone
-        # place existing words
+        @current_word_array = []
+        # place existing words from candidate word array onto temp board
         update_disposable_board
         # get ninenines - list of spaces on disposable board which are '99' - aka, blank
         # if there are no 99s left, the board is done, and the loop can quit
@@ -45,11 +46,11 @@ class Board
           break
         end
         # look for spaces for letters of current word
-        # moved word_to_board inside of total_bastard
-        # places letters onto disposable_board
-            # once all letters in word are on disposable board, run good neighbor check
-            # ensures all remaining blank spaces on board have at least one blank space as a neighbor
-            # if there are no neighbors, good neighbor should cause the board building to start over
+          # moved word_to_board inside of total_bastard
+          # places letters onto disposable_board
+          # once all letters in word are on disposable board, run good neighbor check
+          # ensures all remaining blank spaces on board have at least one blank space as a neighbor
+        # if there are no neighbors, good neighbor should cause the board building to start over
         if total_bastard(placement)
           success = 1
         end
@@ -63,9 +64,9 @@ class Board
 
     def update_disposable_board
       if @candidate_word_array = []
-        # do nothing- required to skip nil error for first word
+        # do nothing- required case in order to skip nil error for first word, do nothing to disposable board
       else
-        # prepares throw-away copy of board to be used when placing current word
+        # prepares the throw-away copy of board to be used when placing current word
         @candidate_word_array.each do |writetoboard|
           writetoboard.each do |writeletter|
             @disposable_board[writeletter[0]] = writeletter[1]
@@ -84,17 +85,20 @@ class Board
     end
 
     def good_neighbor
+      # seems like some reference to borrowing the lawn mower and not returning it should be here
       @good_neighbor_fail = 0
+      # take each instance of 99 on the temp game board and make sure it has a neighbor
       @list_of_ninenine.each do |verify|
-        @badneighbor = []
+        @neighbor = []
         @stepsall.each do |pair|
           if verify + pair == 99
             if @list_of_ninenine.include?(verify + pair)
-              @badneighbor.push(verify)
+              @neighbor.push(verify)
             end
           end
         end
-        if @badneighbor == []
+        # if any value in @list_of_ninenine has no neighbors, fail good_neighbor
+        if @neighbor == []
           @good_neighbor_fail = 1
         end
       end
@@ -106,30 +110,43 @@ class Board
 
     def total_bastard(word)
       @temp_letter_array = []
-      @last_letter = @list_of_ninenines.sample
       @word = word.split("")
       @word_length = @word.length
-      @word_length.each do |search|
-        # place first letter randomly
-        # then work off of the -1 array value to place all other letters
-        # run other search loops if needed
-      end
-      # moving call of word to board here
-      if word_to_board
-        # do nothing
-      else
-        return false
+      @word_success = 0
+      while @word_success = 0 do
+        @word.each do |search|
+          @try_counter += 1
+          @disposable_board_two = @disposable_board.clone
+          if @temp_letter_array = []
+            @temp_letter_array.push(@list_of_ninenines.sample)
+          else
+          # get values until there are some to pick from
+          letter array loop here
+          # place all letters on copy of temp board
+          word to board test step
+          # run good neighbor here
+          # if fail, re-run letter placement attempt
+        end
+        # moving call of word to board here
+        if word_to_board
+          # do nothing
+        else
+          return false
+        end
+        #the last step should be to verify that the placed words in total_bastard do not leave an orphan space
+        if good_neighbor
+          # add current word values to board solution array, complete loop successfully, on to next word
+        else
+          return false
+        end
       end
     end
 
+    # should only take the current word and place the letters on the board
     def word_to_board
-      # coming soon
-
-      #the last step should be to verify that the placed words in total_bastard do not leave an orphan space
-      if good_neighbor
-        # do nothing
-      else
-        return false
+      # update temp board with current word letters.
+      @temp_letter_array.each do |validating|
+        @disposable_baord_two.push(validating[0])
       end
     end
 
