@@ -1,4 +1,44 @@
-new failed board oct 15th
+to see how this game works, check out
+https://www.youtube.com/watch?v=GwqPBV-yeXw
+
+this API is meant to
+1. build a board of letters
+2. verify user plays
+3. update board after valid user play
+4. verify that built boards are solve-able
+
+I am currently on #1
+there is no functionality for 2, 3, 4 built yet
+
+this is the game board
+just an array, but with the data set up
+in such a way as to represent an 8x8 grid
+'0' represents the top and bottom of the board
+'1' represents right and left edges
+'99' is a blank space
+these values are arbitrary
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+1, 99, 99, 99, 99, 99, 99, 99, 99, 1,
+1, 99, 99, 99, 99, 99, 99, 99, 99, 1,
+1, 99, 99, 99, 99, 99, 99, 99, 99, 1,
+1, 99, 99, 99, 99, 99, 99, 99, 99, 1,
+1, 99, 99, 99, 99, 99, 99, 99, 99, 1,
+1, 99, 99, 99, 99, 99, 99, 99, 99, 1,
+1, 99, 99, 99, 99, 99, 99, 99, 99, 1,
+1, 99, 99, 99, 99, 99, 99, 99, 99, 1,
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+
+this is a board in progress of being built,
+most problems emerge when the *last* word is
+being placed. the spaces need to be next to
+each other, and often the engine can't locate
+enough spaces because they are not all contiguous
+
+so I get a nil exception.
+
+making it stop is my whack-a-mole this week
 
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 1, "s", "s", 99, 99, "s", "u", 99, 99, 1,
@@ -9,10 +49,9 @@ new failed board oct 15th
 1, 99, 99, 99, 99, 99, 99, 99, 99, 1,
 1, 99, 99, 99, 99, 99, 99, 99, 99, 1,
 1, 99, 99, 99, 99, 99, 99, 99, 99,
-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] 
+1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
-
-
+**things below this point are mostly garbage data I threw in here while working**
 
 
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
