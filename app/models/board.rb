@@ -6,15 +6,7 @@ class Board
     @valid_spaces = [11, 12, 13, 14, 15, 16, 17, 18, 21, 22, 23, 24, 25, 26, 27, 28, 31, 32, 33, 34, 35, 36, 37, 38, 41, 42, 43, 44, 45, 46, 47, 48, 51, 52, 53, 54, 55, 56, 57, 58, 61, 62, 63, 64, 65, 66, 67, 68, 71, 72, 73, 74, 75, 76, 77, 78, 81, 82, 83, 84, 85, 86, 87, 88]
     @empty_board = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 99, 99, 99, 99, 99, 99, 99, 99, 1, 1, 99, 99, 99, 99, 99, 99, 99, 99, 1, 1, 99, 99, 99, 99, 99, 99, 99, 99, 1, 1, 99, 99, 99, 99, 99, 99, 99, 99, 1, 1, 99, 99, 99, 99, 99, 99, 99, 99, 1, 1, 99, 99, 99, 99, 99, 99, 99, 99, 1, 1, 99, 99, 99, 99, 99, 99, 99, 99, 1, 1, 99, 99, 99, 99, 99, 99, 99, 99, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     # values to locate neighboring spaces, values are "current index plus [this value]"
-    @steps = [-11, -10, -9, -1, 1, 9, 10, 11]
-    # if no immediate neighbors are found, will try to look up a row further, or down a row further
-    @stepsdownone = [-19, -20, -21]
-    @stepsupone = [19, 20, 21]
-    @stepsdowntwo = [-29, -30, -31]
-    @stepsuptwo = [29, 30, 31]
-    # giving up and looking at all remaining far-away but valid spaces
-    @stepsdownthree = [-39, -40, -41, -49, -50, -51, -59, -60, -61, -69, -70, -71]
-    @stepsupthree = [39, 40, 41, 49, 50, 51, 59, 60, 61, 69, 70, 71]
+    @steps = [[-11, -10, -9, -1, 1, 9, 10, 11],[-19, -20, -21, 19, 20, 21],[-29, -30, -31, 29, 30, 31],[-39, -40, -41, -49, -50, -51, -59, -60, -61, -69, -70, -71, 39, 40, 41, 49, 50, 51, 59, 60, 61, 69, 70, 71]]
     # list of all 'step' spaces, is used by 'good_neighbor' check
     # which will tell the board-building attempt to fail if there is a blank space on the board with no neighbors
     # idea! good_neighbor currently runs before trying to place a word's letters
@@ -51,7 +43,8 @@ class Board
           # ensures all remaining blank spaces on board have at least one blank space as a neighbor
         # if there are no neighbors, good neighbor should cause the board building to start over
         if total_bastard(placement)
-          # need to add temp letter array to candidate word array
+          # appends the newly built temp_letter_array to candidate_word_array
+          @candidate_word_array.push(@temp_letter_array)
           success = 1
         end
         # success loop ends here. if no success, should re-try word placement from the top again
@@ -117,12 +110,13 @@ class Board
     @word_success = 0
     while @word_success == 0 do
       @temp_letter_array = []
-      @word_letters_array.each do |search|
+      @word_letters_array.each do |searchy|
+        @searchy = searchy
         @try_counter += 1
         @disposable_board_two = @disposable_board.clone
         if @temp_letter_array = []
           #step is for first letter of word, all others get alternate path
-          @temp_letter_array.push([@list_of_ninenines.sample, search])
+          @temp_letter_array.push([@list_of_ninenines.sample, @searchy])
           word_to_board
           if !good_neighbor
             # add current word values to board solution array, complete loop successfully, on to next word
@@ -134,15 +128,33 @@ class Board
           # other letters check
           @current_space = @temp_letter_array[-1][0]
           @list_of_neighbors = []
+          @pushed = 0
+          # list of neighbors will now be an array of arrays [[1, 2, 3], [4, 5, 6]]
           @steps.each do |buildneighbors|
-            if @list_of_ninenine.include?(@current_space + buildneighbors)
-              @list_of_neighbors.push(@current_space + buildneighbors)
+            buildneighbors.each do |internals|
+              if @list_of_ninenine.include?(@current_space + internals)
+                @list_of_neighbors.push(@current_space + internals)
+              end
             end
           end
-          # get neighbor list
-          # select a value from neighbor list, then check with word_to_board and good_neighbor
-          # here is where all the code I am avoiding writing will go
+          if @list_of_neighbors == [[],[],[],[]]
+            puts "list of neighbors came up blank. crap."
+            break
+          else
+            @list_of_neighbors.each do |lookupone|
+              if @pushed == 0
+                if lookupone == []
+                  break
+                else
+                  @temp_letter_array.push([lookupone.sample, @searchy])
+                  @pushed = 1
+                end
+              end
+            end
+          end
+          # writes newly-added entry in temp word array to disposable_board_two
           word_to_board
+          # runs good_neighbor
           if !good_neighbor
             # add current word values to board solution array, complete loop successfully, on to next word
             break
@@ -153,9 +165,9 @@ class Board
       if @temp_letter_array.length == @word.length
         @word_success = 1
       end
-      # word letters array ends here. if it does not have word success, then it should re-run.
+      # building temp_letter_array from word_letters_array loop ends here if success = 1
+      # if it does not have word success, then it should re-run.
     end
-
   end
 
   # should only take the current word's letters and place the letters in temp_letter_array on disposable_board_two
