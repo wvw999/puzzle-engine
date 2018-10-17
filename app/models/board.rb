@@ -17,6 +17,8 @@ class Board
     @stepsupthree = [39, 40, 41, 49, 50, 51, 59, 60, 61, 69, 70, 71]
     # list of all 'step' spaces, is used by 'good_neighbor' check
     # which will tell the board-building attempt to fail if there is a blank space on the board with no neighbors
+    # idea! good_neighbor currently runs before trying to place a word's letters
+    # instead, make good_neighbor part of the word-letter-placement step, telling total_bastard to try again if current attempt to place word letter would result in leaving an orphaned space
     @stepsall = [-11, -10, -9, -1, 1, 9, 10, 11, -19, -20, -21, 19, 20, 21, -29, -30, -31, 29, 30, 31, -39, -40, -41, -49, -50, -51, -59, -60, -61, -69, -70, -71, 39, 40, 41, 49, 50, 51, 59, 60, 61, 69, 70, 71]
     @loop_counter = 0
     @list_of_neighbors = []
