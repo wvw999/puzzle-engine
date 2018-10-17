@@ -10,6 +10,10 @@ this API is meant to
 I am currently on #1
 there is no functionality for 2, 3, 4 built yet
 
+API end point for #1 is http://localhost:3000/puzzles
+I just began re-building this from scratch,
+so currently the code does not run
+
 this is the game board
 just an array, but with the data set up
 in such a way as to represent an 8x8 grid
@@ -17,6 +21,7 @@ in such a way as to represent an 8x8 grid
 '1' represents right and left edges
 '99' is a blank space
 these values are arbitrary
+this API will attempt to do this job without using recursion
 
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 1, 99, 99, 99, 99, 99, 99, 99, 99, 1,

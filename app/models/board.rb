@@ -23,7 +23,9 @@ class Board
     @board_is_complete = coard_is_complete
     @complete_board = @empty_board.clone
     word_list.each do |placement|
-      # clone the blank board
+      # clone the blank board - makes throw-away copy of the empty board array
+      # which will be used to build a temporary running model of the board while
+      # attempts are made to place a word on the board
       @disposable_board = @empty_board.clone
       # place existing words
       update_disposable_board
@@ -84,7 +86,7 @@ class Board
       @word = word
       @word_length = word.split("").length
       @word_length.times do |search|
-        
+
       end
     end
 
