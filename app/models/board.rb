@@ -20,20 +20,18 @@ class Board
     # idea! good_neighbor currently runs before trying to place a word's letters
     # instead, make good_neighbor part of the word-letter-placement step, telling total_bastard to try again if current attempt to place word letter would result in leaving an orphaned space
     @stepsall = [-11, -10, -9, -1, 1, 9, 10, 11, -19, -20, -21, 19, 20, 21, -29, -30, -31, 29, 30, 31, -39, -40, -41, -49, -50, -51, -59, -60, -61, -69, -70, -71, 39, 40, 41, 49, 50, 51, 59, 60, 61, 69, 70, 71]
-    @loop_counter = 0
+    @try_counter = 0
     @list_of_neighbors = []
     @candidate_word_array = []
     # example of candidate word array : [[[1,"c"], [2, "a"], [3, "t"]], [[4, "d"], [5, "o"], [6, "g"]]]
     # two words, at board index 1,2,3 and 4,5,6 respectively (not actually valid), each word stored as an array of arrays
   end
 
-  def make_board(word_list,try_counter,board_is_complete)
-    @try_counter = try_counter
-    @board_is_complete = coard_is_complete
+  def make_board(word_list)
     @complete_board = @empty_board.clone
     word_list.each do |placement|
       success = 0
-      while success do |wordy|
+      while success = 0 do |wordy|
         # clone the blank board - makes throw-away copy of the empty board array
         # which will be used to build a temporary running model of the board while
         # attempts are made to place a word on the board
@@ -41,7 +39,11 @@ class Board
         # place existing words
         update_disposable_board
         # get ninenines - list of spaces on disposable board which are '99' - aka, blank
-        ninenines
+        # if there are no 99s left, the board is done, and the loop can quit
+        if ninenines = []
+          success = 1
+          break
+        end
         # look for spaces for letters of current word
         # moved word_to_board inside of total_bastard
         # places letters onto disposable_board
@@ -53,7 +55,10 @@ class Board
         end
         break if @loop_counter >= 20000
       end
-      break if @loop_counter >= 20000
+      if @loop_counter >= 20000
+        puts "loop caounter cantaloper beep boop"
+        break
+      end
     end
 
     def update_disposable_board
