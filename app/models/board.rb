@@ -90,9 +90,13 @@ class Board
         @list_of_neighbors = ["q"]
         #builds array of index locations in @blank_board
         @steps.each do |buildneighbors|
-          binding.pry
-          if @list_of_ninenine.include?(@sub_candidate_word_array[-1] + buildneighbors)
-            @list_of_neighbors.push(@sub_candidate_word_array[-1] + buildneighbors)
+
+          begin# binding.pry
+            if @list_of_ninenine.include?(@sub_candidate_word_array[-1] + buildneighbors)
+              @list_of_neighbors.push(@sub_candidate_word_array[-1] + buildneighbors)
+            end
+          rescue
+            puts "had to rescue line 94"
           end
         end
         if @list_of_neighbors.length <= 0
@@ -175,7 +179,6 @@ class Board
 
   def board_updater
     #takes candidate word letter locations and adds them to the board
-    @word_index = 0
     @split_word = @current_word.split("")
     @final_word_array = []
     array_cleanup
@@ -188,6 +191,7 @@ class Board
     # binding.pry
     @counter_for_trys = 0
     until @counter_for_trys == @final_word_array.length || @breakertwo == 1 do
+      @word_index = 0
       @split_word.length.times do |update|
         puts @word_index
         @blank_board_level_two[@final_word_array[@word_index]] = @split_word[@word_index]
