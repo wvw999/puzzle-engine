@@ -32,21 +32,28 @@ class Board
     @board_is_complete = coard_is_complete
     @complete_board = @empty_board.clone
     word_list.each do |placement|
-      # clone the blank board - makes throw-away copy of the empty board array
-      # which will be used to build a temporary running model of the board while
-      # attempts are made to place a word on the board
-      @disposable_board = @empty_board.clone
-      # place existing words
-      update_disposable_board
-      # get ninenines - list of spaces on disposable board which are '99' - aka, blank
-      ninenines
-      # run good neighbor check - ensures all spaces on board have at least one neighbor. not a perfect check, but...
-      # if there are no neighbors, the check should cause the board building to start over
-      good_neighbor(placement)
-      # look for spaces current word
-      total_bastard
-      # add current word to solution array
-      word_to_board
+      success = 0
+      while success do |wordy|
+        # clone the blank board - makes throw-away copy of the empty board array
+        # which will be used to build a temporary running model of the board while
+        # attempts are made to place a word on the board
+        @disposable_board = @empty_board.clone
+        # place existing words
+        update_disposable_board
+        # get ninenines - list of spaces on disposable board which are '99' - aka, blank
+        ninenines
+        # look for spaces for letters of current word
+        # moved word_to_board inside of total_bastard
+        # places letters onto disposable_board
+            # once all letters in word are on disposable board, run good neighbor check
+            # ensures all remaining blank spaces on board have at least one blank space as a neighbor
+            # if there are no neighbors, good neighbor should cause the board building to start over
+        if total_bastard(placement)
+          success = 1
+        end
+        break if @loop_counter >= 20000
+      end
+      break if @loop_counter >= 20000
     end
 
     def update_disposable_board
@@ -93,15 +100,32 @@ class Board
     end
 
     def total_bastard(word)
-      @word = word
-      @word_length = word.split("").length
-      @word_length.times do |search|
-
+      @temp_letter_array = []
+      @last_letter = @list_of_ninenines.sample
+      @word = word.split("")
+      @word_length = @word.length
+      @word_length.each do |search|
+        # place first letter randomly
+        # then work off of the -1 array value to place all other letters
+        # run other search loops if needed
+      end
+      # moving call of word to board here
+      if word_to_board
+        # do nothing
+      else
+        return false
       end
     end
 
     def word_to_board
       # coming soon
+
+      #the last step should be to verify that the placed words in total_bastard do not leave an orphan space
+      if good_neighbor
+        # do nothing
+      else
+        return false
+      end
     end
 
   end
