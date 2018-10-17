@@ -115,35 +115,37 @@ class Board
     @word_success = 0
     while @word_success = 0 do
       @temp_letter_array = []
-
       @word_letters_array.each do |search|
         @try_counter += 1
         @disposable_board_two = @disposable_board.clone
         if @temp_letter_array = []
+          #step is for first letter of word, all others get alternate path
           @temp_letter_array.push(@list_of_ninenines.sample)
+          word_to_board
+          if !good_neighbor
+            # add current word values to board solution array, complete loop successfully, on to next word
+            break
+          end
+          @list_of_ninenines.delete(@temp_letter_array[-1])
         else
-          #other letters check
-          #get neighbor list
-
+          # other letters check
+          # get neighbor list
+          # select a value from neighbor list, then check with word_to_board and good_neighbor
+          # here is where all the code I am avoiding writing will go
+          word_to_board
+          if !good_neighbor
+            # add current word values to board solution array, complete loop successfully, on to next word
+            break
+          end
         end
       end
-
-      if word_to_board
-        # do nothing
-      else
-        break
+      if @temp_letter_array.length == @word.length
+        @word_success = 1
       end
-
-      if good_neighbor
-        # add current word values to board solution array, complete loop successfully, on to next word
-      else
-        break
-      end
-      
     end
   end
 
-  # should only take the current word and place the letters on the board
+  # should only take the current word and place the letters in temp_letter_array on disposable_board_two
   def word_to_board
     # update temp board with current word letters.
     @temp_letter_array.each do |validating|
