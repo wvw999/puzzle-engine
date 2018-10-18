@@ -22,8 +22,9 @@ class Board
   def make_board(word_list)
     @complete_board = @empty_board.clone
     word_list.each do |placement|
+      puts @try_counter
       success = 0
-      while success == 0 do |wordy|
+      while success == 0 do
         # clone the blank board - makes throw-away copy of the empty board array
           # which will be used to build a temporary running model of the board while
         # attempts are made to place a word on the board
@@ -32,7 +33,7 @@ class Board
         update_disposable_board
         # get ninenines - list of spaces on disposable board which are '99' - aka, blank
         # if there are no 99s left, the board is done, and the loop can quit
-        if ninenines = []
+        if ninenines == []
           success = 1
           break
         end
@@ -46,20 +47,23 @@ class Board
           # appends the newly built temp_letter_array to candidate_word_array
           @candidate_word_array.push(@temp_letter_array)
           success = 1
+        else
+          break
         end
         # success loop ends here. if no success, should re-try word placement from the top again
-        break if @loop_counter >= 20000
+        break if @try_counter >= 20000
       end
-      if @loop_counter >= 20000
+      if @try_counter >= 20000
         puts "loop caounter cantaloper beep boop"
         break
       end
     end
+    return @candidate_word_array
   end
 
   # takes candidate word array and adds to disposable board
   def update_disposable_board
-    if @candidate_word_array = []
+    if @candidate_word_array == []
       # do nothing- required case in order to skip nil error for first word, do nothing to disposable board
     else
       # prepares the throw-away copy of board to be used when placing current word
@@ -72,10 +76,10 @@ class Board
   end
 
   def ninenines
-    @list_of_ninenine = []
+    @list_of_ninenines = []
     @valid_spaces.each do |ninenine|
       if @disposable_board[ninenine] == 99
-        @list_of_ninenine.push(ninenine)
+        @list_of_ninenines.push(ninenine)
       end
     end
   end
@@ -84,41 +88,50 @@ class Board
     # seems like some reference to borrowing the lawn mower and not returning it should be here
     @good_neighbor_fail = 0
     # take each instance of 99 on the temp game board and make sure it has a neighbor
-    @list_of_ninenine.each do |verify|
+    @list_of_ninenines.each do |verify|
       @neighbor = []
       @stepsall.each do |pair|
         if verify + pair == 99
-          if @list_of_ninenine.include?(verify + pair)
+          if @list_of_ninenines.include?(verify + pair)
             @neighbor.push(verify)
           end
         end
       end
+      puts @neighbor
       # if any value in @list_of_ninenine has no neighbors, fail good_neighbor
       if @neighbor == []
         @good_neighbor_fail = 1
       end
     end
     if @good_neighbor_fail == 1
-      puts "good neighbor failed"
+      # puts "good neighbor failed"
+      @good_neighbor_fail = 0
       return false
     end
   end
 
   def total_bastard(word)
+    ninenines
     @word_letters_array = word.split("")
-    @word_length = @word.length
+    @word_length = @word_letters_array.length
     @word_success = 0
+    @temp_letter_array = []
     while @word_success == 0 do
-      @temp_letter_array = []
+      @break_this = 0
+      puts "here is temp letter array:"
+      print @temp_letter_array
+      puts " "
       @word_letters_array.each do |searchy|
         @searchy = searchy
         @try_counter += 1
         @disposable_board_two = @disposable_board.clone
-        if @temp_letter_array = []
+        if @temp_letter_array == []
           #step is for first letter of word, all others get alternate path
           @temp_letter_array.push([@list_of_ninenines.sample, @searchy])
           word_to_board
           if !good_neighbor
+            @break_this = 1
+            # binding.pry
             # add current word values to board solution array, complete loop successfully, on to next word
             # need to ensure that this break kicks us up to the "while word_success" loop
             break
@@ -131,12 +144,15 @@ class Board
           @pushed = 0
           # list of neighbors will now be an array of arrays [[1, 2, 3], [4, 5, 6]]
           @steps.each do |buildneighbors|
+            @temp_array = []
             buildneighbors.each do |internals|
-              if @list_of_ninenine.include?(@current_space + internals)
-                @list_of_neighbors.push(@current_space + internals)
+              if @list_of_ninenines.include?(@current_space + internals)
+                @temp_array.push(@current_space + internals)
               end
             end
+            @list_of_neighbors.push(@temp_array)
           end
+          # binding.pry
           if @list_of_neighbors == [[],[],[],[]]
             puts "list of neighbors came up blank. crap."
             break
@@ -156,15 +172,21 @@ class Board
           word_to_board
           # runs good_neighbor
           if !good_neighbor
+            @break_this = 1
+            @temp_letter_array = []
             # add current word values to board solution array, complete loop successfully, on to next word
             break
           end
           @list_of_ninenines.delete(@temp_letter_array[-1])
         end
       end
-      if @temp_letter_array.length == @word.length
+      if @temp_letter_array.length == @word_letters_array.length
         @word_success = 1
       end
+
+      # if @break_this == 1
+      #   break
+      # end
       # building temp_letter_array from word_letters_array loop ends here if success = 1
       # if it does not have word success, then it should re-run.
     end
@@ -174,7 +196,7 @@ class Board
   def word_to_board
     # update temp board with current word letters.
     @temp_letter_array.each do |validating|
-      @disposable_baord_two.push(validating[1])
+      @disposable_board_two.push(validating[1])
     end
   end
 
