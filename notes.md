@@ -153,7 +153,7 @@ The other way to kill the Ruby on Rails default server (which is WEBrick) is:
 kill -INT $(cat tmp/pids/server.pid)
 In your terminal to find out the PID of the process:
 
-$ lsof -wni tcp:3000
+lsof -wni tcp:3000
 Then, use the number in the PID column to kill the process:
 
 For example:
