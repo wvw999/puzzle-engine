@@ -15,23 +15,26 @@ class Board
     word_list.each do |placement|
       success = 0
       while success == 0 do
-        @disposable_board = @empty_board.clone
+        @disposable_board = @complete_board.clone
         # disposable board should be a running record of the successfully placed words
-        update_disposable_board
-        ninenines(@disposable_board)
-        puts "this is disposable board"
-        print @disposable_board
-        puts " "
-        puts "ninenines in make board loop for disposable"
-        print @list_of_ninenines
-        puts " "
-        total_bastard(placement)
-        puts "this is temp letter array after TB has run"
-        print @temp_letters_array
-        puts " "
-        @candidate_word_array.push(@temp_letters_array)
-        puts "this is candidate word array after pushing temp letter array to it"
-        print @candidate_word_array
+        ninenines
+        puts "this is disposable board before TB"
+          print @disposable_board
+          puts " "
+          puts "ninenines in make board loop for disposable"
+          print @list_of_ninenines
+          puts " "
+          total_bastard(placement)
+          puts "this is temp letter array after TB has run"
+          print @temp_letters_array
+          puts " "
+          @candidate_word_array.push(@temp_letters_array)
+          puts "this is candidate word array after pushing temp letter array to it"
+          print @candidate_word_array
+          @complete_board = @disposable_board.clone
+          puts "this is disposable board after TB"
+          print @disposable_board
+          puts " "
         puts " "
         success = 1
         break if @try_counter >= 20000
@@ -41,7 +44,7 @@ class Board
         break
       end
     end
-    return @candidate_word_array
+    return @candidate_word_array, @complete_board
   end
 
   def update_disposable_board
@@ -57,10 +60,10 @@ class Board
     end
   end
 
-  def ninenines(board)
+  def ninenines
     @list_of_ninenines = []
     @valid_spaces.each do |ninenine|
-      if board[ninenine] == 99
+      if @disposable_board[ninenine] == 99
         @list_of_ninenines.push(ninenine)
       end
     end
@@ -85,6 +88,8 @@ class Board
     if @good_neighbor_fail == 1
       @good_neighbor_fail = 0
       return false
+    else
+      return true
     end
   end
 
@@ -92,28 +97,25 @@ class Board
     @word_letters_array = word.split("")
     @word_length = @word_letters_array.length
     @word_success = 0
-    @shithead = 0
+    @word_try_counter = 0
     @temp_letters_array = []
-    # WHILE DO
-    while @word_success == 0 || @shithead < 2000 do
-      # EACH DO
+    while @word_success == 0
       @word_letters_array.each do |searchy|
         @searchy = searchy
         @try_counter += 1
-        @disposable_board_two = @disposable_board.clone
-        # this should write all picked letters from temp letter array on each pass through
-        # then ninenines should get available spaces
-        # any further updates to board managed in below if/else branch
         if @temp_letters_array != []
           word_to_board
         end
-        ninenines(@disposable_board_two)
-        # puts "this is ninenines in TB loops"
-        # print @list_of_ninenines
-        # puts " "
+        ninenines(@disposable_board)
+        if @word_try_counter == 1
+          puts "here is ninenines inside of TB"
+          print @list_of_ninenines
+          puts " "
+        end
         if @temp_letters_array == []
           @temp_letters_array.push([@list_of_ninenines.sample, @searchy])
           word_to_board
+          good_neighbor
           @list_of_ninenines.delete(@temp_letters_array[-1][0])
         else
           @current_space = @temp_letters_array[-1][0]
@@ -128,6 +130,14 @@ class Board
             end
             @list_of_neighbors.push(@temp_array)
           end
+          if @word_try_counter == 1
+            puts "here is list of neighbors"
+            print @list_of_neighbors
+            puts " "
+            puts "here it temp letters areray"
+            print @temp_letters_array
+            puts " "
+          end
           if @list_of_neighbors == [[],[],[],[]]
             puts "list of neighbors came up blank. crap."
             break
@@ -135,9 +145,15 @@ class Board
             @list_of_neighbors.each do |lookupone|
               if @pushed == 0
                 if lookupone == []
+                  # puts "list of neighbors lookupone == [].\ntrying to place #{word}, should be skipping to next block in array"
                   break
                 else
                   @temp_letters_array.push([lookupone.sample, @searchy])
+                  if @word_try_counter == 1
+                    puts "temp letters array"
+                    print @temp_letters_array[-1]
+                    puts " "
+                  end
                   @pushed = 1
                 end
               end
@@ -146,11 +162,7 @@ class Board
           word_to_board
           @list_of_ninenines.delete(@temp_letters_array[-1][0])
         end
-        # puts "this is temp letter array in tb loops"
-        # print @temp_letters_array
-        # puts " "
       end
-      @shithead += 1
       if @temp_letters_array.length == @word_letters_array.length
         puts "***********************************\nword letters array inside TB loops, shuld be success here\n***********************************************"
         print @word_letters_array
@@ -163,14 +175,14 @@ class Board
     puts " "
   end
 
-  # should only take the current word's letters and place the letters in temp_letters_array on disposable_board_two
+  # should only take the current word's letters and place the letters in temp_letters_array on disposable_board
   def word_to_board
     # update temp board with current word letters.
     @temp_letters_array.each do |validating|
       # puts "this is 'validating' inside of word to board"
       # print validating
       # puts " "
-      @disposable_board_two[validating[0]] = validating[1]
+      @disposable_board[validating[0]] = validating[1]
     end
   end
 
