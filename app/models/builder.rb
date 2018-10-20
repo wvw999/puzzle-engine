@@ -53,7 +53,7 @@ class Builder
 
     @word_selection.each do |makeword|
       @good_one = 0
-      while @good_one = 0 do
+      while @good_one == 0 do
         @grab = @name_num[makeword].sample
         if @complete_list.exclude?(@grab)
           @complete_list.push(@grab)

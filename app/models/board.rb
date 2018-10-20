@@ -90,6 +90,7 @@ class Board
       end
     end
     if @good_neighbor_fail == 1
+      puts "*****\n*****\ngood neighbor was false\n*****\n*****"
       @good_neighbor_fail = 0
       return false
     else
@@ -104,12 +105,8 @@ class Board
     @word_try_counter = 0
     @bip = 0
     @temp_letters_array = []
-    catch (:didnot) do
-      if @bip == 1
-        puts "retrying #{word}"
-        @bip = 0
-      end
-      while @word_success == 0
+    while @word_success == 0
+      catch :didnot do
         @word_letters_array.each do |searchy|
           @searchy = searchy
           @try_counter += 1
@@ -127,11 +124,11 @@ class Board
             word_to_board
             @kick_neighbor = good_neighbor
             if @kick_neighbor == false
-              puts " *** good neighbor fail on #{word}"
+              puts " *** good neighbor fail on #{word} ***"
               @temp_letters_array = []
-              puts "trying catch throw in if branch"
+              puts "***\ntrying catch throw in if branch\n***"
               @bip = 1
-              throw :didnot if @temp_letters_array == []
+              throw :didnot
             else
               @list_of_ninenines.delete(@temp_letters_array[-1][0])
             end
@@ -183,7 +180,7 @@ class Board
               @temp_letters_array = []
               puts "trying catch throw in else branch"
               @bip = 1
-              throw :didnot if @temp_letters_array == []
+              throw :didnot
             else
               @list_of_ninenines.delete(@temp_letters_array[-1][0])
             end
@@ -196,8 +193,14 @@ class Board
           @word_success = 1
         end
       end
-      puts "attempted to place #{word}, here is temp array"
-      print @temp_letters_array
+      puts "attempted to place #{word}, here is, list of neighbors, temp array, list of ninenines, complete board"
+        print @list_of_neighbors
+        puts " "
+        print @temp_letters_array
+        puts " "
+        print @list_of_ninenines
+        puts " "
+        print @disposable_board
       puts " "
     end
   end
