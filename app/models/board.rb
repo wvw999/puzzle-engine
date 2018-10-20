@@ -12,6 +12,9 @@ class Board
 
   def make_board(word_list)
     @complete_board = @empty_board.clone
+    puts "this is word list"
+    print word_list
+    puts " "
     word_list.each do |placement|
       success = 0
       while success == 0 do
@@ -31,6 +34,7 @@ class Board
           @candidate_word_array.push(@temp_letters_array)
           puts "this is candidate word array after pushing temp letter array to it"
           print @candidate_word_array
+          puts " "
           @complete_board = @disposable_board.clone
           puts "this is disposable board after TB"
           print @disposable_board
@@ -98,81 +102,104 @@ class Board
     @word_length = @word_letters_array.length
     @word_success = 0
     @word_try_counter = 0
+    @bip = 0
     @temp_letters_array = []
-    while @word_success == 0
-      @word_letters_array.each do |searchy|
-        @searchy = searchy
-        @try_counter += 1
-        if @temp_letters_array != []
-          word_to_board
-        end
-        ninenines(@disposable_board)
-        if @word_try_counter == 1
-          puts "here is ninenines inside of TB"
-          print @list_of_ninenines
-          puts " "
-        end
-        if @temp_letters_array == []
-          @temp_letters_array.push([@list_of_ninenines.sample, @searchy])
-          word_to_board
-          good_neighbor
-          @list_of_ninenines.delete(@temp_letters_array[-1][0])
-        else
-          @current_space = @temp_letters_array[-1][0]
-          @list_of_neighbors = []
-          @pushed = 0
-          @steps.each do |buildneighbors|
-            @temp_array = []
-            buildneighbors.each do |internals|
-              if @list_of_ninenines.include?(@current_space + internals)
-                @temp_array.push(@current_space + internals)
-              end
-            end
-            @list_of_neighbors.push(@temp_array)
+    catch (:didnot) do
+      if @bip == 1
+        puts "retrying #{word}"
+        @bip = 0
+      end
+      while @word_success == 0
+        @word_letters_array.each do |searchy|
+          @searchy = searchy
+          @try_counter += 1
+          if @temp_letters_array != []
+            word_to_board
           end
+          ninenines
           if @word_try_counter == 1
-            puts "here is list of neighbors"
-            print @list_of_neighbors
-            puts " "
-            puts "here it temp letters areray"
-            print @temp_letters_array
+            puts "here is ninenines inside of TB"
+            print @list_of_ninenines
             puts " "
           end
-          if @list_of_neighbors == [[],[],[],[]]
-            puts "list of neighbors came up blank. crap."
-            break
+          if @temp_letters_array == []
+            @temp_letters_array.push([@list_of_ninenines.sample, @searchy])
+            word_to_board
+            @kick_neighbor = good_neighbor
+            if @kick_neighbor == false
+              puts " *** good neighbor fail on #{word}"
+              @temp_letters_array = []
+              puts "trying catch throw in if branch"
+              @bip = 1
+              throw :didnot if @temp_letters_array == []
+            else
+              @list_of_ninenines.delete(@temp_letters_array[-1][0])
+            end
           else
-            @list_of_neighbors.each do |lookupone|
-              if @pushed == 0
-                if lookupone == []
-                  # puts "list of neighbors lookupone == [].\ntrying to place #{word}, should be skipping to next block in array"
-                  break
-                else
-                  @temp_letters_array.push([lookupone.sample, @searchy])
-                  if @word_try_counter == 1
-                    puts "temp letters array"
-                    print @temp_letters_array[-1]
-                    puts " "
+            @current_space = @temp_letters_array[-1][0]
+            @list_of_neighbors = []
+            @pushed = 0
+            @steps.each do |buildneighbors|
+              @temp_array = []
+              buildneighbors.each do |internals|
+                if @list_of_ninenines.include?(@current_space + internals)
+                  @temp_array.push(@current_space + internals)
+                end
+              end
+              @list_of_neighbors.push(@temp_array)
+            end
+            if @word_try_counter == 1
+              puts "here is list of neighbors"
+              print @list_of_neighbors
+              puts " "
+              puts "here it temp letters areray"
+              print @temp_letters_array
+              puts " "
+            end
+            if @list_of_neighbors == [[],[],[],[]]
+              puts "list of neighbors came up blank. crap."
+              break
+            else
+              @list_of_neighbors.each do |lookupone|
+                if @pushed == 0
+                  if lookupone == []
+                    # puts "list of neighbors lookupone == [].\ntrying to place #{word}, should be skipping to next block in array"
+                    break
+                  else
+                    @temp_letters_array.push([lookupone.sample, @searchy])
+                    if @word_try_counter == 1
+                      puts "temp letters array"
+                      print @temp_letters_array[-1]
+                      puts " "
+                    end
+                    @pushed = 1
                   end
-                  @pushed = 1
                 end
               end
             end
+            word_to_board
+            @kick_neighbor = good_neighbor
+            if @kick_neighbor == false
+              @temp_letters_array = []
+              puts "trying catch throw in else branch"
+              @bip = 1
+              throw :didnot if @temp_letters_array == []
+            else
+              @list_of_ninenines.delete(@temp_letters_array[-1][0])
+            end
           end
-          word_to_board
-          @list_of_ninenines.delete(@temp_letters_array[-1][0])
+        end
+        if @temp_letters_array.length == @word_letters_array.length
+          puts "***********************************\nword letters array inside TB loops, shuld be success here\n***********************************************"
+          print @word_letters_array
+          puts " "
+          @word_success = 1
         end
       end
-      if @temp_letters_array.length == @word_letters_array.length
-        puts "***********************************\nword letters array inside TB loops, shuld be success here\n***********************************************"
-        print @word_letters_array
-        puts " "
-        @word_success = 1
-      end
+      puts "attempted to place #{word}, here is temp array"
+      print @temp_letters_array
+      puts " "
     end
-    puts "attempted to place #{word}, here is temp array"
-    print @temp_letters_array
-    puts " "
   end
 
   # should only take the current word's letters and place the letters in temp_letters_array on disposable_board

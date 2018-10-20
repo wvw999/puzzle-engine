@@ -1,3 +1,24 @@
+
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+1,  99,  99, "a", "r", "e", "t", "c", "o", 1,
+1, "m", "c", "b",  99, "d", "a", "e", "s", 1,
+1,  99, "i",  99, "o",  99, "g", "t",  99, 1,
+1, "n", "f", "i", "n", "i", "a", "o", "t", 1,
+1, "i", "i", "c", "f",  99, "r",  99, "s", 1,
+1, "n", "m", "n", "a", "e", "r",  99,  99, 1,
+1, "g", "s", "u", "t", "l", "o",  99, "s", 1,
+1,  99, "i",  99, "m",  99, "y", "u",  99, 1,
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+
+[11, 12, 24, 31, 33, 35, 38, 55, 57, 67, 68, 77, 81, 83, 85, 88]
+
+
+["significantly", "carboniferous", "storage", "minimum", "cost", "date", "margin", "margin", "away"]
+
+
+
 to see how this game works, check out
 https://www.youtube.com/watch?v=GwqPBV-yeXw
 
