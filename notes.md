@@ -1,3 +1,24 @@
+
+
+
+1, 9, 9, a, r, e, t, c, o, 1,
+1, m, c, b, 9, d, a, e, s, 1,
+1, 9, i, 9, o, 9, g, t, 9, 1,
+1, n, f, i, n, i, a, o, t, 1,
+1, i, i, c, f, 9, r, 9, s, 1,
+1, n, m, n, a, e, r, 9, 9, 1,
+1, g, s, u, t, l, o, 9, s, 1,
+1, 9, i, 9, m, 9, y, u, 9, 1,
+
+
+
+[11, 12, 24, 31, 33, 35, 38, 55, 57, 67, 68, 77, 81, 83, 85, 88]
+
+
+["significantly", "carboniferous", "storage", "minimum", "cost", "date", "margin", "margin", "away"]
+
+
+
 to see how this game works, check out
 https://www.youtube.com/watch?v=GwqPBV-yeXw
 
@@ -19,19 +40,19 @@ just an array, but with the data set up
 in such a way as to represent an 8x8 grid
 '0' represents the top and bottom of the board
 '1' represents right and left edges
-'99' is a blank space
+'9' is a blank space
 these values are arbitrary
 this API will attempt to do this job without using recursion
 
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-1, 99, 99, 99, 99, 99, 99, 99, 99, 1,
-1, 99, 99, 99, 99, 99, 99, 99, 99, 1,
-1, 99, 99, 99, 99, 99, 99, 99, 99, 1,
-1, 99, 99, 99, 99, 99, 99, 99, 99, 1,
-1, 99, 99, 99, 99, 99, 99, 99, 99, 1,
-1, 99, 99, 99, 99, 99, 99, 99, 99, 1,
-1, 99, 99, 99, 99, 99, 99, 99, 99, 1,
-1, 99, 99, 99, 99, 99, 99, 99, 99, 1,
+1, 9, 9, 9, 9, 9, 9, 9, 9, 1,
+1, 9, 9, 9, 9, 9, 9, 9, 9, 1,
+1, 9, 9, 9, 9, 9, 9, 9, 9, 1,
+1, 9, 9, 9, 9, 9, 9, 9, 9, 1,
+1, 9, 9, 9, 9, 9, 9, 9, 9, 1,
+1, 9, 9, 9, 9, 9, 9, 9, 9, 1,
+1, 9, 9, 9, 9, 9, 9, 9, 9, 1,
+1, 9, 9, 9, 9, 9, 9, 9, 9, 1,
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 class Board
@@ -53,27 +74,27 @@ so I get a nil exception.
 making it stop is my whack-a-mole this week
 
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-1, "s", "s", 99, 99, "s", "u", 99, 99, 1,
-1, "m", "a", "a", "c", "h", "e", 99, 99, 1,
-1, 99, 99, 99, 99, 99, "t", 99, 99, 1,
-1, 99, 99, 99, 99, "t", 99, 99, 99, 1,
-1, 99, 99, 99, 99, 99, "s", 99, 99, 1,
-1, 99, 99, 99, 99, 99, 99, 99, 99, 1,
-1, 99, 99, 99, 99, 99, 99, 99, 99, 1,
-1, 99, 99, 99, 99, 99, 99, 99, 99,
+1, "s", "s", 9, 9, "s", "u", 9, 9, 1,
+1, "m", "a", "a", "c", "h", "e", 9, 9, 1,
+1, 9, 9, 9, 9, 9, "t", 9, 9, 1,
+1, 9, 9, 9, 9, "t", 9, 9, 9, 1,
+1, 9, 9, 9, 9, 9, "s", 9, 9, 1,
+1, 9, 9, 9, 9, 9, 9, 9, 9, 1,
+1, 9, 9, 9, 9, 9, 9, 9, 9, 1,
+1, 9, 9, 9, 9, 9, 9, 9, 9,
 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 **things below this point are mostly garbage data I threw in here while working**
 
 
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-1, "d", "p", "n", 99, "o", "e", "a", "t", 1,
-1, "o", "m", "i", 99, "n", "k", 99, "d", 1,
-1, "i", "k", "t", "r", 99, "l", "d", "r", 1,
+1, "d", "p", "n", 9, "o", "e", "a", "t", 1,
+1, "o", "m", "i", 9, "n", "k", 9, "d", 1,
+1, "i", "k", "t", "r", 9, "l", "d", "r", 1,
 1, "h", "r", "e", "s", "t", "d", "a", "e", 1,
 1, "f", "a", "r", "e", "t", "e", "e", "i", 1,
 1, "t", "x", "e", "d", "o", "s", "r", "n", 1,
-1, "i", "a", "c", 99, "r", "u", "n", "s", 1,
+1, "i", "a", "c", 9, "r", "u", "n", "s", 1,
 1, "a", "e", "l", "c", "a", "x", "a", "u", 1,
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
@@ -145,7 +166,7 @@ actual usable board spaces if needed
 
 [-11, -10, -9, -1, 1, 9, 10, 11]
 
-git config --global credential.helper "cache --timeout=99600"
+git config --global credential.helper "cache --timeout=9600"
 
 [{"id":1,"board":["0","0","0","0","0","0","0","0","0","0","1","z","z","z","z","z","z","z","a","1","1","z","z","z","z","z","z","z","b","1","1","z","z","z","z","z","z","z","c","1","1","w","o","r","d","g","a","m","e","1","1","z","z","z","z","z","z","z","d","1","1","z","z","z","z","z","z","z","e","1","1","z","z","z","z","z","z","z","f","1","1","z","z","z","z","z","z","z","g","1","0","0","0","0","0","0","0","0","0","0"],"words":["zzzzzzza","zzzzzzzb","zzzzzzzc","zzzzzzzd","zzzzzzze","zzzzzzzf","zzzzzzzg","wordgame"],"created_at":"2018-10-01T18:01:52.013Z","updated_at":"2018-10-01T18:01:52.013Z"}]
 
@@ -160,7 +181,7 @@ The other way to kill the Ruby on Rails default server (which is WEBrick) is:
 kill -INT $(cat tmp/pids/server.pid)
 In your terminal to find out the PID of the process:
 
-$ lsof -wni tcp:3000
+lsof -wni tcp:3000
 Then, use the number in the PID column to kill the process:
 
 For example:
@@ -169,119 +190,35 @@ $ kill -9 PID
 
 
 
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+1,  99,  99,  99,  99,  99,  99,  99,  99, 1,
+1,  99, "t", "a", "m", "i",  99,  99,  99, 1,
+1, "e",  99,  99,  99, "s", "t", "v",  99, 1,
+1,  99,  99, "e", "n", "e", "l", "o", "i", 1,
+1,  99,  99, "c",  99, "e", "s", "s", "o", 1,
+1,  99,  99,  99,  99,  99, "i", "i", "n", 1,
+1,  99, "a", "r", "t", "n",  99, "m",  99, 1,
+1,  99, "t", "h", "a",  99, "s",  99,  99, 1,
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 
 
-big chunk of older board code --
 
-def word_spaces_selector
 
-      (@word_length - 1).times do |pickspaces|
-        @list_of_neighbors = ["q"]
-        @steps.each do |buildneighbors|
-          if @list_of_ninenine.include?(@sub_candidate_word_array[-1] + buildneighbors)
-            @list_of_neighbors.push(@sub_candidate_word_array[-1] + buildneighbors)
-          end
-        end
-        if @list_of_neighbors.length <= 0
-          stepsone
-        end
-        if @list_of_neighbors.length <= 0
-          # if the neighbor check fails the array will be empty, look again for the +10 values using second array of plus/minus values
-          stepstwo
-        end
-        if @list_of_neighbors.length <= 0
-          # if the neighbor check fails the array will be empty, look again for everything that's left
-          stepsthree
-        end
 
-        if @list_of_neighbors == ["q"] || @list_of_neighbors.include?(nil)
-          @selectbreaker = 1
-          puts "hit selectbreaker on line 111"
-          next
-        end
-        # removes the newly selected next space on board from the array of candidates in list_of_ninenine
-        @list_of_neighbors.delete("q")
-        @sub_candidate_word_array.push(@list_of_neighbors.sample)
-        @list_of_ninenine.delete(@sub_candidate_word_array[-1])
-      end
-      if @list_of_neighbors.length <= 0
-        # if the neighbor check fails the array will be empty, look again for the +10 values using second array of plus/minus values
-        stepsone
-      end
-      if @list_of_neighbors.length <= 0
-        # if the neighbor check fails the array will be empty, look again for the +10 values using second array of plus/minus values
-        stepstwo
-      end
-      if @list_of_neighbors.length <= 0
-        # if the neighbor check fails the array will be empty, look again for everything that's left
-        stepsthree
-      end
 
-      if @list_of_neighbors == [] || @list_of_neighbors.include?(nil)
-        @selectbreaker = 1
-        next
-      end
-      # removes the newly selected next space on board from the array of candidates in list_of_ninenine
-      @candidate_word_array.push(@list_of_neighbors.sample)
-      @list_of_ninenine.delete(@candidate_word_array[-1])
-    end
-    @loop_counter += 1
-    if @candidate_word_array.include?(nil) || @candidate_word_array.length != lengthofword
-      @selectbreaker = 1
-    end
-    if @selectbreaker == 1 || @loop_counter > 20000
-      return false
-    else
-      @candidate_word_array
-      @candidate_word_array.push(@sub_candidate_word_array)
-    end
-  end
-   def stepsone
-    @stepsupone.each do |addtoneighbors|
-      if @list_of_ninenine.include?(@candidate_word_array[-1] + addtoneighbors)
-        @list_of_neighbors.push(@candidate_word_array[-1] + addtoneighbors)
-      if @list_of_ninenine.include?(@sub_candidate_word_array[-1] + addtoneighbors)
-        @list_of_neighbors.push(@sub_candidate_word_array[-1] + addtoneighbors)
-      end
-    end
-    @stepsdownone.each do |addtoneighbors|
-      if @list_of_ninenine.include?(@candidate_word_array[-1] + addtoneighbors)
-        @list_of_neighbors.push(@candidate_word_array[-1] + addtoneighbors)
-      if @list_of_ninenine.include?(@sub_candidate_word_array[-1] + addtoneighbors)
-        @list_of_neighbors.push(@sub_candidate_word_array[-1] + addtoneighbors)
-      end
-    end
-  end
-   def stepstwo
-    @stepsuptwo.each do |addtoneighbors|
-      if @list_of_ninenine.include?(@candidate_word_array[-1] + addtoneighbors)
-        @list_of_neighbors.push(@candidate_word_array[-1] + addtoneighbors)
-      if @list_of_ninenine.include?(@sub_candidate_word_array[-1] + addtoneighbors)
-        @list_of_neighbors.push(@sub_candidate_word_array[-1] + addtoneighbors)
-      end
-    end
-    @stepsdowntwo.each do |addtoneighbors|
-      if @list_of_ninenine.include?(@candidate_word_array[-1] + addtoneighbors)
-        @list_of_neighbors.push(@candidate_word_array[-1] + addtoneighbors)
-      if @list_of_ninenine.include?(@sub_candidate_word_array[-1] + addtoneighbors)
-        @list_of_neighbors.push(@sub_candidate_word_array[-1] + addtoneighbors)
-      end
-    end
-  end
-   def stepsthree
-    @stepsupthree.each do |addtoneighbors|
-      if @list_of_ninenine.include?(@candidate_word_array[-1] + addtoneighbors)
-        @list_of_neighbors.push(@candidate_word_array[-1] + addtoneighbors)
-      if @list_of_ninenine.include?(@sub_candidate_word_array[-1] + addtoneighbors)
-        @list_of_neighbors.push(@sub_candidate_word_array[-1] + addtoneighbors)
-      end
-    end
-    @stepsdownthree.each do |addtoneighbors|
-      if @list_of_ninenine.include?(@candidate_word_array[-1] + addtoneighbors)
-        @list_of_neighbors.push(@candidate_word_array[-1] + addtoneighbors)
-      if @list_of_ninenine.include?(@sub_candidate_word_array[-1] + addtoneighbors)
-        @list_of_neighbors.push(@sub_candidate_word_array[-1] + addtoneighbors)
-      end
-    end
-  end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+,
