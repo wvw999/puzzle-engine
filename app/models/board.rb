@@ -102,16 +102,27 @@ class Board
     @word_letters_array = word.split("")
     @word_length = @word_letters_array.length
     @word_success = 0
-    @word_try_counter = 0
-    @bip = 0
-    @temp_letters_array = []
-    while @word_success == 0
-      catch :didnot do
-        @word_letters_array.each do |searchy|
-          @searchy = searchy
-          @try_counter += 1
-          if @temp_letters_array != []
-            word_to_board
+    @temp_letter_array = []
+    while @word_success == 0 do
+      @break_this = 0
+      puts "here is temp letter array:"
+      print @temp_letter_array
+      puts " "
+      @word_letters_array.each do |searchy|
+            puts word
+        @searchy = searchy
+        @try_counter += 1
+        @disposable_board_two = @disposable_board.clone
+        if @temp_letter_array == []
+          #step is for first letter of word, all others get alternate path
+          @temp_letter_array.push([@list_of_ninenines.sample, @searchy])
+          word_to_board
+          if !good_neighbor
+            @break_this = 1
+            # binding.pry
+            # add current word values to board solution array, complete loop successfully, on to next word
+            # need to ensure that this break kicks us up to the "while word_success" loop
+            break
           end
           ninenines
           if @word_try_counter == 1
