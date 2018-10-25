@@ -122,6 +122,7 @@ class Board
       print @temp_letter_array
       puts " "
       @word_letters_array.each do |searchy|
+            puts word
         @searchy = searchy
         @try_counter += 1
         @disposable_board_two = @disposable_board.clone

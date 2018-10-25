@@ -34,6 +34,13 @@ this API will attempt to do this job without using recursion
 1, 99, 99, 99, 99, 99, 99, 99, 99, 1,
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
+class Board
+  empty
+end
+
+class BoardSpace
+end
+
 
 this is a board in progress of being built,
 most problems emerge when the *last* word is
