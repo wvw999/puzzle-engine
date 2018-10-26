@@ -12,6 +12,17 @@ class Board
   def set_words(words)
     # this_board = board_spaces.dup
     words.each do |word|
+      counter = 0
+      word_letters = word.split("")
+      word_letter = word_letters[counter]
+      until counter == word_letter.length do
+        if counter == 0
+          first_letter(word_letter)
+        else
+          remaining_letters(word_letter)
+        end
+        counter += 1
+      end
       # similar process as TB, but with new math/logic to handle x/y coord system
       # break word into array, each over the letters
       # 1st letter random, all others located mathematically
@@ -19,6 +30,20 @@ class Board
 
       # raise "failed on word: #{word}"
     end
+  end
+
+  def first_letter(letter)
+    all_empty = []
+    @board.each do |collect|
+      if collect.letter == ""
+        all_empty.push(collect)
+      end
+    end
+    
+  end
+
+  def remaining_letters(letter)
+
   end
 
   def display
