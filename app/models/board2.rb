@@ -4,17 +4,20 @@ class BoardSpace
   def initialize(x,y)
     @x = x
     @y = y
-    @letter = "Q"
+    @letter = ""
   end
 end
 
 class Board
   def set_words(words)
-    this_board = board_spaces.dup
+    # this_board = board_spaces.dup
     words.each do |word|
+      # similar process as TB, but with new math/logic to handle x/y coord system
+      # break word into array, each over the letters
+      # 1st letter random, all others located mathematically
+      # will need new methods for this
 
-
-      raise "failed on word: #{word}"
+      # raise "failed on word: #{word}"
     end
   end
 
