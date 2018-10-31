@@ -1,13 +1,11 @@
 class PuzzlesController < ApplicationController
 
   def index
-    # @destinations = {"destination": "The secret ski lodge of the ancient weiner dogs."}
-    # @puzzles = Puzzle.all
-    # json_response(@puzzles)
     @builder = Builder.new
     @wordlist = @builder.initial_word_puller
     @board = Board.new
-    @complete = @board.make_board(@wordlist)
+    @complete = @board.set_words(["experimental", "undertake", "counselor", "extent", "radar", "draft", "idaho", "heron", "aims", "sick"])
+    binding.pry
     json_response(@complete)
     # binding.pry
   end
