@@ -4,8 +4,14 @@ class PuzzlesController < ApplicationController
     @builder = Builder.new
     @wordlist = @builder.initial_word_puller
     @board = Board.new
-    @complete = @board.set_words(["experimental", "undertake", "counselor", "extent", "radar", "draft", "idaho", "heron", "aims", "sick"])
-    binding.pry
+    @counter = 0
+    until @counter > 20 do
+      @complete = @board.set_words(["experimental", "undertake", "counselor", "extent", "radar", "draft", "idaho", "heron", "aims", "sick"])
+      if @complete != false
+        @counter = 20
+      end
+      @counter += 1
+    end
     json_response(@complete)
     # binding.pry
   end
