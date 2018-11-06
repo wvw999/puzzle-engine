@@ -6,7 +6,7 @@ class PuzzlesController < ApplicationController
     @board = Board.new
     @counter = 0
     until @counter > 20 do
-      @complete = @board.set_words(["experimental", "undertake", "counselor", "extent", "radar", "draft", "idaho", "heron", "aims", "sick"])
+      @complete = @board.set_words(@wordlist)
       if @complete != false
         @counter = 20
       end

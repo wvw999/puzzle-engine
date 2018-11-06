@@ -1,3 +1,18 @@
+* builder is complete: can easily generate a board.
+moving on to move updater, which will shift the letters when a successful play is made
+
+also on the to-do list:
+game turn manager
+  start of game:
+    get board from database
+  ongoing maint:
+    display board on page
+    track words found
+    display found words on page
+  win:
+    all words found (end on last word found)
+
+
 "experimental"=> [["e", 2, 1],  ["x", 1, 1],  ["p", 2, 2],  ["e", 2, 3],  ["r", 3, 3],  ["i", 4, 3],  ["m", 3, 2],  ["e", 3, 1],  ["n", 4, 1],  ["t", 5, 1],  ["a", 5, 2],  ["l", 6, 3]],
 "undertake"=> [["u", 1, 2],  ["n", 1, 3],  ["d", 1, 4],  ["e", 2, 5],  ["r", 1, 5],  ["t", 2, 4],  ["a", 3, 4],  ["k", 4, 5],  ["e", 4, 4]],
 "counselor"=> [["c", 7, 2],  ["o", 6, 2],  ["u", 6, 1],  ["n", 7, 1],  ["s", 8, 1],  ["e", 8, 2],  ["l", 8, 3],  ["o", 8, 4],  ["r", 7, 4]],
@@ -9,18 +24,90 @@
 "aims"=>[["a", 5, 3], ["i", 4, 2], ["m", 5, 4], ["s", 5, 5]],
 "sick"=>[["s", 5, 7]]}
 
+[[{"x":1,"y":1,"letter":"t"}
+{"x":1,"y":2,"letter":"m"}
+{"x":1,"y":3,"letter":"a"}
+{"x":1,"y":4,"letter":"i"}
+{"x":1,"y":5,"letter":"n"}
+{"x":1,"y":6,"letter":"e"}
+{"x":1,"y":7,"letter":"m"}
+{"x":1,"y":8,"letter":"o"}
+
+{"x":2,"y":1,"letter":"a"}
+{"x":2,"y":2,"letter":"t"}
+{"x":2,"y":3,"letter":"r"}
+{"x":2,"y":4,"letter":"r"}
+{"x":2,"y":5,"letter":"e"}
+{"x":2,"y":6,"letter":"m"}
+{"x":2,"y":7,"letter":"n"}
+{"x":2,"y":8,"letter":"i"}
+
+{"x":3,"y":1,"letter":"r"}
+{"x":3,"y":2,"letter":"u"}
+{"x":3,"y":3,"letter":"l"}
+{"x":3,"y":4,"letter":"n"}
+{"x":3,"y":5,"letter":"e"}
+{"x":3,"y":6,"letter":"u"}
+{"x":3,"y":7,"letter":"r"}
+{"x":3,"y":8,"letter":"s"}
+
+{"x":4,"y":1,"letter":"n"}
+{"x":4,"y":2,"letter":"u"}
+{"x":4,"y":3,"letter":"c"}
+{"x":4,"y":4,"letter":"n"}
+{"x":4,"y":5,"letter":"t"}
+{"x":4,"y":6,"letter":"e"}
+{"x":4,"y":7,"letter":"t"}
+{"x":4,"y":8,"letter":""}
+
+{"x":5,"y":1,"letter":"a"}
+{"x":5,"y":2,"letter":"e"}
+{"x":5,"y":3,"letter":"i"}
+{"x":5,"y":4,"letter":"t"}
+{"x":5,"y":5,"letter":"e"}
+{"x":5,"y":6,"letter":"x"}
+{"x":5,"y":7,"letter":"t"}
+{"x":5,"y":8,"letter":"s"}
+
+{"x":6,"y":1,"letter":"i"}
+{"x":6,"y":2,"letter":"d"}
+{"x":6,"y":3,"letter":"i"}
+{"x":6,"y":4,"letter":"t"}
+{"x":6,"y":5,"letter":"n"}
+{"x":6,"y":6,"letter":"e"}
+{"x":6,"y":7,"letter":"i"}
+{"x":6,"y":8,"letter":"n"}
+
+{"x":7,"y":1,"letter":"m"}
+{"x":7,"y":2,"letter":"c"}
+{"x":7,"y":3,"letter":"s"}
+{"x":7,"y":4,"letter":"d"}
+{"x":7,"y":5,"letter":"m"}
+{"x":7,"y":6,"letter":"i"}
+{"x":7,"y":7,"letter":"r"}
+{"x":7,"y":8,"letter":"a"}
+
+{"x":8,"y":1,"letter":"e"}
+{"x":8,"y":2,"letter":"a"}
+{"x":8,"y":3,"letter":"t"}
+{"x":8,"y":4,"letter":"e"}
+{"x":8,"y":5,"letter":"a"}
+{"x":8,"y":6,"letter":"c"}
+{"x":8,"y":7,"letter":"h"}
+{"x":8,"y":8,"letter":"t"}],[
+"ultramarine","instrument","existence","indicate","merchant","remote","aids","meat","unit"],{
+"ultramarine":[["u",4,2],["l",3,3],["t",2,2],["r",3,1],["a",2,1],["m",1,2],["a",1,3],["r",2,3],["i",1,4],["n",1,5],["e",1,6]],
+"instrument":[["i",2,8],["n",2,7],["s",3,8],["t",4,7],["r",3,7],["u",3,6],["m",2,6],["e",3,5],["n",4,4],["t",4,5]],
+"existence":[["e",5,5],["x",5,6],["i",6,7],["s",5,8],["t",5,7],["e",4,6],["n",3,4],["c",4,3],["e",5,2]],
+"indicate":[["i",7,6],["n",6,5],["d",7,4],["i",6,3],["c",7,2],["a",8,2],["t",8,3],["e",8,4]],
+"merchant":[["m",7,5],["e",6,6],["r",7,7],["c",8,6],["h",8,7],["a",7,8],["n",6,8],["t",5,4]],
+"remote":[["r",2,4],["e",2,5],["m",1,7],["o",1,8],["t",1,1]],
+"aids":[["a",5,1],["i",6,1],["d",6,2],["s",7,3]],
+"meat":[["m",7,1],["e",8,1],["a",8,5],["t",8,8]],
+"unit":[["u",3,2],["n",4,1],["i",5,3],["t",6,4]]}]
 
 
-
-
-1, 9, 9, a, r, e, t, c, o, 1,
-1, m, c, b, 9, d, a, e, s, 1,
-1, 9, i, 9, o, 9, g, t, 9, 1,
-1, n, f, i, n, i, a, o, t, 1,
-1, i, i, c, f, 9, r, 9, s, 1,
-1, n, m, n, a, e, r, 9, 9, 1,
-1, g, s, u, t, l, o, 9, s, 1,
-1, 9, i, 9, m, 9, y, u, 9, 1,
+ultramarineinstrumentexistenceindicatemerchantremoteaidsmeatunit
 
 
 
