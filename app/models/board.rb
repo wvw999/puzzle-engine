@@ -27,7 +27,13 @@ class Board
         @counter += 1
       end
     end
-    if @placed[words.last].length == words.last.split("").length
+    @nope = 0
+    @placed.each do |key,val|
+      if key.to_s.split("").length != val.length
+        @nope += 1
+      end
+    end
+    if @nope == 0
       return @board, words, @placed
     else
       return false
