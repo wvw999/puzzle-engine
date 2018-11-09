@@ -12,6 +12,7 @@ class PuzzlesController < ApplicationController
       end
       @counter += 1
     end
+    binding.pry
     json_response(@complete)
     # binding.pry
   end

@@ -34,7 +34,7 @@ class Board
       end
     end
     if @nope == 0
-      return @board, words, @placed
+      return [@board, words, @placed]
     else
       return false
     end
