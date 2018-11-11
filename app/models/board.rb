@@ -1,3 +1,5 @@
+require_relative 'updater'
+
 class BoardSpace
   attr_reader :x, :y
   attr_accessor :letter
@@ -34,7 +36,7 @@ class Board
       end
     end
     if @nope == 0
-      return [@board, words, @placed]
+      return @board #, words, @placed]
     else
       return false
     end
