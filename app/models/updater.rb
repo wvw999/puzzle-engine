@@ -16,10 +16,10 @@ class Updater
   end
 
   def board_adjuster(user_move)
-    # user move should be letter and x y values
-    # if values == puzzle word
-    # using x y values, change letter value to zero '0'
-    # then call function to shift letters in case of '0' values
+    user_move.each do |write_zero|
+      write_zero.letter=0
+    end
+    board_shifter
   end
 
   def board_shifter
@@ -35,7 +35,7 @@ class Updater
   end
 
   def column_writer(column)
-    # builds new array of zeroes, then letters, writes to board 
+    # builds new array of zeroes, then letters, writes to board
     @new_column = []
     @procesing = 8 - column.length
     # writes the appropriate number of zeroes into the new column array
