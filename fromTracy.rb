@@ -19,62 +19,35 @@ testboard = [{"x":1,"y":1,"letter":"s"},{"x":1,"y":2,"letter":"n"},{"x":1,"y":3,
 {"x":8,"y":1,"letter":"z"},{"x":8,"y":2,"letter":"z"},{"x":8,"y":3,"letter":"z"},{"x":8,"y":4,"letter":"z"},{"x":8,"y":5,"letter":"z"},{"x":8,"y":6,"letter":"z"},{"x":8,"y":7,"letter":"z"},{"x":8,"y":8,"letter":"z"}]
 
 
-
-testwords = ["responsibility", "position", "eastern", "search", "monkey", "media", "photo", "chief", "than", "nose"]
-
-#input = [[[1,1], [3,4]], [[1,2]], [[2,2]], [[2,3]], [[3,3]]]
-
-input = [[[1], [2]], [[3]], [[4]], [[5]], [[6]]]
-
-# testy = testarray.permutation.to_a
-# print testy
-
-sampleword = "snakes"
-
-require('benchmark')
-# input = [['the', 'a','no'],['rain','storm', 'drizzle'],['in'],['germany','spain','italy','france','england'],['stays'],['mainly','mostly'],['in the'],['meadow','plain','forest','hills']]
-
-#input = [[[1,1], [3,4]], [[1,2]], [[2,2]], [[2,3]], [[3,3]]]
-
-def sentence_maker(input)
-  input.reduce do |memo, value|
-    value.reduce([]) do |m, new_word|
-      memo.map do |prev_words|
-        # puts "here is memo"
-        # print m
-        # puts " "
-        # puts "here is value"
-        # print new_word
-        # puts " "
-        # puts "here is prev_words"
-        # print prev_words
-        # puts " "
-        [*prev_words, new_word]
-      end + m
-    end
-  end
-end
-
-puts Benchmark.measure {
-  print sentence_maker(input)#.map {|x| x.join(" ") }.sort
-}
-
-#  input = [['the', 'a','no'],['rain','storm', 'drizzle'],['in'],['germany','spain','italy','france','england'],['stays'],['mainly','mostly'],['in the'],['meadow','plain','forest','hills']]
-
+#
+# testwords = ["responsibility", "position", "eastern", "search", "monkey", "media", "photo", "chief", "than", "nose"]
+#
+# input = [[[1,1], [3,4]], [[1,2]], [[2,2]], [[2,3]], [[3,3]], [[1,1], [3,4]]]
+#
+# sampleword = "snakes"
+#
+# require('benchmark')
+#
 # def sentence_maker(input)
-#   input.reduce do |memo, value|
+#   input.reduce([]) do |memo, value|
 #     value.reduce([]) do |m, new_word|
-#       memo.map do |prev_words|
-#         [*prev_words, new_word]
-#       end + m
+#       if memo.count > 0
+#         memo.map do |prev_words|
+#           [*prev_words, new_word]
+#         end + m
+#       else
+#         [[new_word]] + m
+#       end
 #     end
 #   end
 # end
+#
+# puts Benchmark.measure {
+#   print sentence_maker(input)#.map {|x| x.join(" ") }.sort
+# }
 
 # section breaks word into array, looks up every board x,y for each letter, puts into array of arrays
 
-# this section will lock up ruby. binding pry to block
-# binding.pry
 # samplewordarray = sampleword.split('').to_a
 # alllocations = []
 # individuallocation = []
@@ -89,42 +62,37 @@ puts Benchmark.measure {
 #   alllocations.push individuallocation
 #   individuallocation = []
 # end
-# this is the code that locked things up. hiding
-# shitty = alllocations.permutation.to_a
-# print shitty
+wordlength = 6
+arrayy = [[1, 1], [1, 2], [2, 2], [2, 3], [3, 3], [3, 4]]
+section looks at array of arrays to see if subsequent values are contiguous board spaces
 
+indexofsolution = 0
+failed = 0
+solutionlist = []
+(sampleword.length - 1).times do |buildlocations|
+  first = arrayy[indexofsolution]
+  second = arrayy[indexofsolution+1]
+  xlist = [first[-2], first[-2]-1, first[-2]+1]
+  ylist = [first[-1], first[-1]-1, first[-1]+1]
+  if xlist.include?(compare[0]) && ylist.include?(compare[1])
+    xyshove.push [compare]
+    tempsolution.push xyshove
+    xyshove = []
+  else
+    failed += 1
+  end
+end
 
-# section looks at array of arrays to see if subsequent values are contiguous board spaces
+if failed == 0
 
-# indexofsolution = 0
-# tempsolution = []
-# rollingsolution = []
-# (sampleword.length - 1).times do |buildlocations|
-#   alllocations[indexofsolution].each do |xylookup|
-#     alllocations[indexofsolution+1].each do |compare|
-#       xlist = [xylookup[-2], xylookup[-2]-1, xylookup[-2]+1]
-#       ylist = [xylookup[-1], xylookup[-1]-1, xylookup[-1]+1]
-#       xyshove = []
-#       if xlist.include?(compare[0]) && ylist.include?(compare[1])
-#         if indexofsolution == 0
-#           xyshove.push [xylookup]
-#         end
-#         xyshove.push [compare]
-#         tempsolution.push xyshove
-#         xyshove = []
-#       end
-#     end
-#     rollingsolution.push [tempsolution]
-#     tempsolution = []
-#   end
-#   puts "**"
-#   print tempsolution
-#   puts "**"
-#   indexofsolution += 1
-#   rollingsolution = tempsolution
-#   tempsolution = []
-# end
-# print rollingsolution
+  puts "**"
+  print tempsolution
+  puts "**"
+  indexofsolution += 1
+  rollingsolution = tempsolution
+  tempsolution = []
+
+print rollingsolution
 
 
 # @x = 1
