@@ -19,12 +19,26 @@ testboard = [{"x":1,"y":1,"letter":"s"},{"x":1,"y":2,"letter":"n"},{"x":1,"y":3,
 {"x":8,"y":1,"letter":"z"},{"x":8,"y":2,"letter":"z"},{"x":8,"y":3,"letter":"z"},{"x":8,"y":4,"letter":"z"},{"x":8,"y":5,"letter":"z"},{"x":8,"y":6,"letter":"z"},{"x":8,"y":7,"letter":"z"},{"x":8,"y":8,"letter":"z"}]
 
 
+def sentence_maker(input)
+  input.reduce do |memo, value|
+    value.reduce([]) do |m, new_word|
+      memo.map do |prev_words|
+        [*prev_words, new_word]
+      end + m
+    end
+  end
+end
+
+puts Benchmark.measure {
+  puts sentence_maker(input).map{|x| x.join(" ") }.sort
+}
+
 #
 # testwords = ["responsibility", "position", "eastern", "search", "monkey", "media", "photo", "chief", "than", "nose"]
 #
 # input = [[[1,1], [3,4]], [[1,2]], [[2,2]], [[2,3]], [[3,3]], [[1,1], [3,4]]]
 #
-# sampleword = "snakes"
+sampleword = "snakes"
 #
 # require('benchmark')
 #
@@ -48,53 +62,78 @@ testboard = [{"x":1,"y":1,"letter":"s"},{"x":1,"y":2,"letter":"n"},{"x":1,"y":3,
 
 # section breaks word into array, looks up every board x,y for each letter, puts into array of arrays
 
-# samplewordarray = sampleword.split('').to_a
-# alllocations = []
-# individuallocation = []
-# samplewordarray.each do |build|
-#   testboard.each do |compare|
-#     if compare[:letter] === build
-#       j = compare[:x]
-#       k = compare[:y]
-#       individuallocation.push [j,k]
-#     end
-#   end
-#   alllocations.push individuallocation
-#   individuallocation = []
-# end
-wordlength = 6
-arrayy = [[1, 1], [1, 2], [2, 2], [2, 3], [3, 3], [3, 4]]
-section looks at array of arrays to see if subsequent values are contiguous board spaces
+samplewordarray = sampleword.split('').to_a
+word_len = sampleword.length
+alllocations = []
+individuallocation = []
+samplewordarray.each do |build|
+  testboard.each do |compare|
+    if compare[:letter] === build
+      j = compare[:x]
+      k = compare[:y]
+      individuallocation.push [j,k]
+    end
+  end
+  alllocations.push individuallocation
+  individuallocation = []
+end
+print alllocations
+puts " "
 
-indexofsolution = 0
-failed = 0
-solutionlist = []
-(sampleword.length - 1).times do |buildlocations|
-  first = arrayy[indexofsolution]
-  second = arrayy[indexofsolution+1]
-  xlist = [first[-2], first[-2]-1, first[-2]+1]
-  ylist = [first[-1], first[-1]-1, first[-1]+1]
-  if xlist.include?(compare[0]) && ylist.include?(compare[1])
-    xyshove.push [compare]
-    tempsolution.push xyshove
-    xyshove = []
-  else
-    failed += 1
+require('benchmark')
+
+def sentence_maker(input)
+  input.reduce([]) do |memo, value|
+    value.reduce([]) do |m, new_word|
+      if memo.count > 0
+        memo.map do |prev_words|
+          [*prev_words, new_word]
+        end + m
+      else
+        [new_word]
+      end
+    end
   end
 end
 
-if failed == 0
+print sentence_maker(alllocations)#.map {|x| x.join(" ") }.sort
 
-  puts "**"
-  print tempsolution
-  puts "**"
-  indexofsolution += 1
-  rollingsolution = tempsolution
-  tempsolution = []
+# permuted = sentence_maker(alllocations)#.map {|x| x.join(" ") }.sort
+# print permuted
+# puts "\n\n\n"
 
-print rollingsolution
+# alllocations = [[[1, 1], [1, 2], [2, 2], [2, 3], [3, 3], [3, 4]], [[3, 4], [1, 2], [2, 2], [2, 3], [3, 3], [1, 1]]]
+# arrayy = [[3, 4], [1, 2], [2, 2], [2, 3], [3, 3], [1, 1]]
+# section looks at array of arrays to see if subsequent values are contiguous board spaces
+proofed_list = []
+permuted.each do |process|
+  process.each do |arrayy|
+    print arrayy
+    indexofsolution = 0
+    failed = 0
+    (word_len-1).times do |checkpairs|
+      first = arrayy[indexofsolution]
+      second = arrayy[indexofsolution+1]
+      xlist = [first[-2], first[-2]-1, first[-2]+1]
+      ylist = [first[-1], first[-1]-1, first[-1]+1]
+      if xlist.include?(second[0]) && ylist.include?(second[1])
+        failed = 0
+      else
+        puts "huh"
+        failed += 1
+      end
+      indexofsolution += 1
+    end
+    indexofsolution = 0
+    if failed == 0
+      print arrayy
+      proofed_list.push arrayy
+    end
+    failed = 0
+  end
+end
 
-
+print proofed_list
 # @x = 1
 # @y = 8
 # 64.times do |print|
