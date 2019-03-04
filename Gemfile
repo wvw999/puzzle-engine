@@ -11,6 +11,9 @@ gem 'faker'
 gem 'pivotal_git_scripts'
 gem 'rack-cors'
 gem 'rspec-rails'
+gem "nokogiri", ">= 1.8.5"
+gem "rack", ">= 2.0.6"
+gem "loofah", ">= 2.2.3"
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

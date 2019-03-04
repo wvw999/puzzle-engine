@@ -8,7 +8,7 @@ It is being built out in three parts:
 2. a puzzle solver that guarantees the puzzles created by #1 are solvable (in process)
 3. the gameplay engine which allows a user to play the game (coming soon)
 
-to see how this game works, check out
+to see how the original game works, check out
 https://www.youtube.com/watch?v=GwqPBV-yeXw
 
 this project was initially being built out as an API, though, as the creation/solving aspect of this is time consuming, it is no longer an API
