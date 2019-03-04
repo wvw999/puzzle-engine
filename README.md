@@ -1,18 +1,27 @@
-# WordBrain puzzle game clone - API back end
+# WordBrain puzzle game clone - initial attempt at basic functionality
 
-This is the base API for the logic side of the game. It uses a local dictionary to select some words totaling 64 letters in length, then assembles them into an 8x8 grid, such that they are hidden/somewhat hidden.
+This is an attempt to clone a popular word game, 'wordbrain'
 
-When future functionality is added, the player will be able to select letters and submit them, the engine will decide whether the move was valid, and if so, it will re-draw the board with the letters removed, and also slide all above letters down (similar to tetris or bejeweled).
+It is being built out in three parts:
 
-A final piece of functionality is a board checker- it will validate whether or not the game boards built by the builder engine can actually be solved.
+1. a puzzle generator that collects words from the dictionary (included) and saves them (complete except storage)
+2. a puzzle solver that guarantees the puzzles created by #1 are solvable (in process)
+3. the gameplay engine which allows a user to play the game (coming soon)
 
-To see how the game is intented to function in the end, google WordBrain and look at videos of gameplay. Rather than directly infringe on their franchise, I will likely add some other functionality to differntiate my version from theirs.
+to see how this game works, check out
+https://www.youtube.com/watch?v=GwqPBV-yeXw
+
+this project was initially being built out as an API, though, as the creation/solving aspect of this is time consuming, it is no longer an API
+
+the board has been re-imagined, and is now a hash of X, Y values and an associated letter.
+
+there is not currently any javascript front end, it will come as part of #3.
 
 ## Technology used
 
 Ruby version 2.5.0, Rails 5.2.1, psql
 
-## Get the API up and running
+## Get the code up and running
 
 Clone repo, create database, migrate database, run seed file.
 
