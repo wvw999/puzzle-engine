@@ -20,7 +20,7 @@ testboard = [{"x":1,"y":1,"letter":"s"},{"x":1,"y":2,"letter":"n"},{"x":1,"y":3,
 {"x":5,"y":1,"letter":"z"},{"x":5,"y":2,"letter":"z"},{"x":5,"y":3,"letter":"z"},{"x":5,"y":4,"letter":"z"},{"x":5,"y":5,"letter":"z"},{"x":5,"y":6,"letter":"z"},{"x":5,"y":7,"letter":"z"},{"x":5,"y":8,"letter":"z"},
 {"x":6,"y":1,"letter":"z"},{"x":6,"y":2,"letter":"z"},{"x":6,"y":3,"letter":"z"},{"x":6,"y":4,"letter":"z"},{"x":6,"y":5,"letter":"z"},{"x":6,"y":6,"letter":"z"},{"x":6,"y":7,"letter":"z"},{"x":6,"y":8,"letter":"z"},
 {"x":7,"y":1,"letter":"z"},{"x":7,"y":2,"letter":"z"},{"x":7,"y":3,"letter":"z"},{"x":7,"y":4,"letter":"z"},{"x":7,"y":5,"letter":"z"},{"x":7,"y":6,"letter":"z"},{"x":7,"y":7,"letter":"z"},{"x":7,"y":8,"letter":"z"},
-{"x":8,"y":1,"letter":"z"},{"x":8,"y":2,"letter":"z"},{"x":8,"y":3,"letter":"z"},{"x":8,"y":4,"letter":"z"},{"x":8,"y":5,"letter":"z"},{"x":8,"y":6,"letter":"z"},{"x":8,"y":7,"letter":"z"},{"x":8,"y":8,"letter":"z"}]
+{"x":8,"y":1,"letter":"z"},{"x":8,"y":2,"letter":"z"},{"x":8,"y":3,"letter":"z"},{"x":8,"y":4,"letter":"z"},{"x":8,"y":5,"letter":"z"},{"x":8,"y":6,"letter":"s"},{"x":8,"y":7,"letter":"z"},{"x":8,"y":8,"letter":"z"}]
 
 sampleword = "snakes"
 
@@ -44,15 +44,30 @@ puts "this is alllocations"
 print alllocations
 puts "\n\n\n"
 
+# def sentence_maker(input)
+#   input.reduce([]) do |memo, value|
+#     value.reduce([]) do |m, new_word|
+#       if memo.count > 0
+#         memo.map do |prev_words|
+#           [*prev_words, new_word]
+#         end + m
+#       else
+#         [[new_word]]
+#       end
+#     end
+#   end
+# end
+
 def sentence_maker(input)
-  input.reduce([]) do |memo, value|
-    value.reduce([]) do |m, new_word|
-      if memo.count > 0
-        memo.map do |prev_words|
-          [*prev_words, new_word]
-        end + m
-      else
-        [[new_word]]
+  input.reduce([]) do |whole_calculation, new_group|
+
+    if whole_calculation.count == 0
+      new_group.map { |x| [x] }
+    else
+      whole_calculation.reduce([]) do |sub_calculation, single_sentence|
+        new_group.map do |new_word|
+          single_sentence + [new_word]
+        end + sub_calculation
       end
     end
   end
@@ -78,14 +93,14 @@ permuted.each do |process|
       second = process[indexofsolution+1]
       xlist = [first[-2], first[-2]-1, first[-2]+1]
       ylist = [first[-1], first[-1]-1, first[-1]+1]
-      print first
-      puts " "
-      print second
-      puts " "
-      print xlist
-      puts " "
-      print ylist
-      puts " "
+      # print first
+      # puts " "
+      # print second
+      # puts " "
+      # print xlist
+      # puts " "
+      # print ylist
+      # puts " "
       if xlist.include?(second[0]) && ylist.include?(second[1])
         a = 1
       else
@@ -95,8 +110,8 @@ permuted.each do |process|
     end
     indexofsolution = 0
     if failed == 0
-      print process
-      puts " "
+      # print process
+      # puts " "
       proofed_list.push process
     else
       puts "boo"
