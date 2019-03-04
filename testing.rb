@@ -9,6 +9,10 @@ require('benchmark')
 # {"x":7,"y":1,"letter":"k"},{"x":7,"y":2,"letter":"s"},{"x":7,"y":3,"letter":"r"},{"x":7,"y":4,"letter":"n"},{"x":7,"y":5,"letter":"h"},{"x":7,"y":6,"letter":"i"},{"x":7,"y":7,"letter":"d"},{"x":7,"y":8,"letter":"o"},
 # {"x":8,"y":1,"letter":"e"},{"x":8,"y":2,"letter":"a"},{"x":8,"y":3,"letter":"e"},{"x":8,"y":4,"letter":"y"},{"x":8,"y":5,"letter":"a"},{"x":8,"y":6,"letter":"t"},{"x":8,"y":7,"letter":"h"},{"x":8,"y":8,"letter":"p"}]
 
+#
+# testwords = ["responsibility", "position", "eastern", "search", "monkey", "media", "photo", "chief", "than", "nose"]
+#
+
 testboard = [{"x":1,"y":1,"letter":"s"},{"x":1,"y":2,"letter":"n"},{"x":1,"y":3,"letter":"z"},{"x":1,"y":4,"letter":"z"},{"x":1,"y":5,"letter":"z"},{"x":1,"y":6,"letter":"z"},{"x":1,"y":7,"letter":"z"},{"x":1,"y":8,"letter":"z"},
 {"x":2,"y":1,"letter":"z"},{"x":2,"y":2,"letter":"a"},{"x":2,"y":3,"letter":"k"},{"x":2,"y":4,"letter":"z"},{"x":2,"y":5,"letter":"z"},{"x":2,"y":6,"letter":"z"},{"x":2,"y":7,"letter":"z"},{"x":2,"y":8,"letter":"z"},
 {"x":3,"y":1,"letter":"z"},{"x":3,"y":2,"letter":"z"},{"x":3,"y":3,"letter":"e"},{"x":3,"y":4,"letter":"s"},{"x":3,"y":5,"letter":"z"},{"x":3,"y":6,"letter":"z"},{"x":3,"y":7,"letter":"z"},{"x":3,"y":8,"letter":"z"},
@@ -17,14 +21,6 @@ testboard = [{"x":1,"y":1,"letter":"s"},{"x":1,"y":2,"letter":"n"},{"x":1,"y":3,
 {"x":6,"y":1,"letter":"z"},{"x":6,"y":2,"letter":"z"},{"x":6,"y":3,"letter":"z"},{"x":6,"y":4,"letter":"z"},{"x":6,"y":5,"letter":"z"},{"x":6,"y":6,"letter":"z"},{"x":6,"y":7,"letter":"z"},{"x":6,"y":8,"letter":"z"},
 {"x":7,"y":1,"letter":"z"},{"x":7,"y":2,"letter":"z"},{"x":7,"y":3,"letter":"z"},{"x":7,"y":4,"letter":"z"},{"x":7,"y":5,"letter":"z"},{"x":7,"y":6,"letter":"z"},{"x":7,"y":7,"letter":"z"},{"x":7,"y":8,"letter":"z"},
 {"x":8,"y":1,"letter":"z"},{"x":8,"y":2,"letter":"z"},{"x":8,"y":3,"letter":"z"},{"x":8,"y":4,"letter":"z"},{"x":8,"y":5,"letter":"z"},{"x":8,"y":6,"letter":"z"},{"x":8,"y":7,"letter":"z"},{"x":8,"y":8,"letter":"z"}]
-
-
-
-
-
-#
-# testwords = ["responsibility", "position", "eastern", "search", "monkey", "media", "photo", "chief", "than", "nose"]
-#
 
 sampleword = "snakes"
 
@@ -44,6 +40,10 @@ samplewordarray.each do |build|
   individuallocation = []
 end
 
+puts "this is alllocations"
+print alllocations
+puts "\n\n\n"
+
 def sentence_maker(input)
   input.reduce([]) do |memo, value|
     value.reduce([]) do |m, new_word|
@@ -58,7 +58,12 @@ def sentence_maker(input)
   end
 end
 
-print sentence_maker(alllocations)#.map {|x| x.join(" ") }.sort
+
+permuted = sentence_maker(alllocations)#.map {|x| x.join(" ") }.sort
+
+puts "this is permuted"
+print permuted
+puts "\n\n\n"
 
 # set of possible locations of word passed here
 # checks to see if pairs of values are contiguous board spaces
@@ -66,56 +71,42 @@ print sentence_maker(alllocations)#.map {|x| x.join(" ") }.sort
 
 proofed_list = []
 permuted.each do |process|
-  process.each do |arrayy|
-    print arrayy
     indexofsolution = 0
     failed = 0
     (word_len-1).times do |checkpairs|
-      first = arrayy[indexofsolution]
-      second = arrayy[indexofsolution+1]
+      first = process[indexofsolution]
+      second = process[indexofsolution+1]
       xlist = [first[-2], first[-2]-1, first[-2]+1]
       ylist = [first[-1], first[-1]-1, first[-1]+1]
+      print first
+      puts " "
+      print second
+      puts " "
+      print xlist
+      puts " "
+      print ylist
+      puts " "
       if xlist.include?(second[0]) && ylist.include?(second[1])
-        failed = 0
+        a = 1
       else
-        puts "huh"
         failed += 1
       end
       indexofsolution += 1
     end
     indexofsolution = 0
     if failed == 0
-      print arrayy
-      proofed_list.push arrayy
+      print process
+      puts " "
+      proofed_list.push process
+    else
+      puts "boo"
     end
     failed = 0
-  end
 end
 
 print proofed_list
 
-# this block draws out a sample board for preview in html
-# cannot just read board directly because board is initial value x1y1 is in lower left instead of upper left
 
-# @x = 1
-# @y = 8
-# 64.times do |print|
-#   testboard.each do |web|
-#     if web[:x].to_i === @x
-#       if web[:y].to_i === @y
-#         print "<td> "
-#         print web[:letter]
-#         print " </td>"
-#       end
-#     end
-#   end
-#   if @x == 8
-#     @x = 1
-#     @y -= 1
-#   else
-#     @x += 1
-#   end
-# end
 
 # step 1 - generate permutation list of words on board
   # note: will run this manually without permutation list first.
