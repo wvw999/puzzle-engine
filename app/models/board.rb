@@ -1,4 +1,5 @@
 require_relative 'updater'
+require 'json'
 
 class BoardSpace
   attr_reader :x, :y
@@ -10,14 +11,15 @@ class BoardSpace
   end
 end
 
-class Board
+class Board # < ActiveRecord::Base
+  #serialize :boardstate
   def set_words(words)
     @board = Board.new.board_spaces
     @placed = {}
     words.each do |word|
       @counter = 0
       word_letters = word.split("")
-      puts word
+      # puts word
       until @counter == word_letters.length do
         word_letter = word_letters[@counter]
         if @counter == 0
@@ -25,7 +27,7 @@ class Board
         else
           remaining_letters(word,word_letter)
         end
-        puts @counter
+        # puts @counter
         @counter += 1
       end
     end
@@ -36,7 +38,10 @@ class Board
       end
     end
     if @nope == 0
-      return @board #, words, @placed]
+      puzzle = Puzzle.new
+      puzzle.boardstate = {:board => @board, :words => words}
+      puzzle.save
+      return [@board , words] #, @placed]
     else
       return false
     end

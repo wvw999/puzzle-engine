@@ -14,6 +14,8 @@
  [[7, 5], [1, 2], [2, 2], [2, 3], [3, 3], [3, 4]]
  [[7, 5], [1, 2], [2, 2], [2, 3], [3, 3], [1, 1]]]
 
+
+
 # this block draws out a sample board for preview in html
 # cannot just read board directly because board is initial value x1y1 is in lower left instead of upper left
 
@@ -38,15 +40,12 @@
 # end
 
 
-[[[3, 4], [1, 2], [8, 3], [2, 3], [3, 3], [3, 4]],
- [[3, 4], [1, 2], [2, 2], [2, 3], [3, 3], [3, 4]],
- [[3, 4], [1, 2], [1, 3], [2, 3], [3, 3], [3, 4]],
- [[3, 4], [1, 2], [8, 3], [2, 3], [3, 3], [1, 1]],
- [[3, 4], [1, 2], [2, 2], [2, 3], [3, 3], [1, 1]],
- [[3, 4], [1, 2], [1, 3], [2, 3], [3, 3], [1, 1]]]
+<BoardSpace:0x000056422406dc60 @x=1, @y=1, @letter="h">, <BoardSpace:0x000056422406dbe8 @x=1, @y=2, @letter="y">, <BoardSpace:0x000056422406db70 @x=1, @y=3, @letter="e">,
+↳ app/models/board.rb:42
+Puzzle Create (2.2ms)  INSERT INTO "puzzles" ("board", "words", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["board", "{#<BoardSpace:0x000056422406dc60>,
+#<BoardSpace:0x000056422406dbe8>,
+#<BoardSpace:0x000056422406db70>,... ["words", "{unfortunately,livermorium,associate,innocent,capacity,emerge,fifth,star}"], ["created_at", "2019-03-06 00:09:20.425116"], ["updated_at", "2019-03-06 00:09:20.425116"]]
 
-[[[1, 1], [1, 2], [2, 2], [2, 3], [3, 3]],
-[[1, 1], [1, 2], [1, 3], [2, 3], [3, 3]]]
 
 
 

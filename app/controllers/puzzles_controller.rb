@@ -13,7 +13,12 @@ class PuzzlesController < ApplicationController
       @counter += 1
     end
     # binding.pry
-    json_response(@complete)
+    @mess = json_response(@complete)
+    @cleaned = JSON.parse(@mess)
+    @board = @cleaned[0].delete '\\'
+    binding.pry
+    puzzle = Puzzle.new(:board => @board, :words => @cleaned[1]).save
+    @mess
     # binding.pry
   end
 
@@ -43,7 +48,7 @@ class PuzzlesController < ApplicationController
 
   private
   def puzzle_params
-    params.permit(:board, :words, :id)
+    params.permit(:board, :solution, :words, :id)
   end
 
 end
