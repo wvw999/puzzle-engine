@@ -12,14 +12,7 @@ class PuzzlesController < ApplicationController
       end
       @counter += 1
     end
-    # binding.pry
-    @mess = json_response(@complete)
-    @cleaned = JSON.parse(@mess)
-    @board = @cleaned[0].delete '\\'
-    binding.pry
-    puzzle = Puzzle.new(:board => @board, :words => @cleaned[1]).save
-    @mess
-    # binding.pry
+    json_response(@complete)
   end
 
   def show

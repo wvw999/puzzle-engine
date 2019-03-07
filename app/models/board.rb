@@ -38,9 +38,16 @@ class Board # < ActiveRecord::Base
       end
     end
     if @nope == 0
-      puzzle = Puzzle.new
-      puzzle.boardstate = {:board => @board, :words => words}
-      puzzle.save
+      @boardpackage = []
+      @board.each do |serialize|
+        boardspace = []
+        boardspace.push serialize.x
+        boardspace.push serialize.y
+        boardspace.push serialize.letter
+        @boardpackage.push boardspace
+      end
+      binding.pry
+      puzzle = Puzzle.new(:board => @boardpackage, :words => words).save
       return [@board , words] #, @placed]
     else
       return false
