@@ -2,17 +2,19 @@ testboard = [["1","1","t"],["1","2","e"],["1","3","d"],["1","4","h"],["1","5","c
 
 testwords = ["technology","basketball","detective","dependent","soccer","sample","board","malay","fold"]
 
-wordspermuted = testwords.permutation.to_a
-wordarraylength = testwords.length
-wordsindex = 1
-solutionfound = false
-tempboard = testboard.clone
+
 
 # will need to add process to remove words from board
+  # this will need to use the coords built and used by the permute method
 # also will need to remove "found" words from "words on board" storage area
 # which of course is not defined by the above data
 
 def solution_processor
+  wordspermuted = testwords.permutation.to_a
+  wordarraylength = testwords.length
+  wordsindex = 1
+  solutionfound = false
+  tempboard = testboard.clone
   until wordsindex == wordspermuted.length || solutionfound == true
     current = wordspermuted[wordsindex]
     currentfail = false
@@ -22,11 +24,13 @@ def solution_processor
         xyletters = word_letter_lookup(current[attemptindex], testboard)
         if xyletters == false
           currentfail == true
+          break
         else
           permutedword = word_permuter(xyletters)
+          proofedlist = wordlistproofer(permutedwords)
           attemptindex += 1
         end
-        proofedlist = listproofer
+
       end
     end
     wordsindex += 1
@@ -76,14 +80,7 @@ def word_permuter(input)
   end
 end
 
-
-#.map {|x| x.join(" ") }.sort
-# set of possible locations of word passed here
-# checks to see if pairs of values are contiguous board spaces
-# based on +/- 1 x/y values
-# retains instance from permuted list if so
-
-def listproofer(list)
+def wordlistproofer(list)
   proofed_list = []
   list.each do |process|
       indexofsolution = 0
@@ -113,7 +110,13 @@ def listproofer(list)
   return proofed_list
 end
 
- # call after removing word from board
+def wordremover(xyset, board)
+  xyset.each do |removeletter|
+    board.each do |checkcoords|
+      # if xy vals match, change space to blank
+    end
+  end
+end
 
 def puzzleupdate(board)
   tempboard = []
