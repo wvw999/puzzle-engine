@@ -5,35 +5,47 @@ class Validator
 
 end
 
-def solution_processor(board, words)
+def solution_processor(board, words, solution)
   wordspermuted = words.permutation.to_a
   wordarraylength = words.length
-  wordsindex = 1
-  solutionfound = false
-  tempboard = board.clone
-  until wordsindex == wordspermuted.length || solutionfound == true
-    current = wordspermuted[wordsindex]
-    currentfail = false
-    while currentfail == false || solutionfound == false
-      attemptindex = 0
-      wordarraylength.times do |checkeachword|
-        xyletters = word_letter_lookup(current[attemptindex], testboard)
-        if xyletters == false
-          currentfail == true
-          break
-        else
-          permutedword = word_permuter(xyletters)
-          proofedlist = wordlistproofer(permutedwords)
-          attemptindex += 1
-        end
-
-      end
-    end
-    wordsindex += 1
+  runningcopy = board.clone
+  permutedindex = 0
+  10.times do
+    wordpert = wordspermuted[permutedindex]
+    gogetter = recursing(board, wordpert, solution)
   end
 end
 
+def recursing(board, words, solution)
+  # needs to look up first word in permuted arr
+  # find valid locations for that word
+  # loop over each trying to find a path through the board
+  # if valid path to next word found, recurse to repeat this for next word in list
+  # thus, if valid, remove fisrt value in permuted list, pass to self in recursion
+  # if no values of first word register
+  # kick loop back to previous level
 
+  solutionfound = false
+  tempboard = board.clone
+  xyletters = word_letter_lookup(words[0], testboard)
+  if xyletters
+    permutedword = word_permuter(xyletters)
+    proofedlist = wordlistproofer(permutedwords)
+  else
+    return false
+  end
+  lesswords = words.delete_at(0)
+  if word.length == 1
+    solutionfound = true
+    return solutionfound
+  else
+    proofedlist.each do |recurse|
+      wordremover(recurse, tempboard)
+      recursing(tempboard, lesswords, solution)
+
+    end
+  end
+end
 
 # builds array of all xy vals for all letters in a word
 def word_letter_lookup(word,board)
@@ -44,8 +56,8 @@ def word_letter_lookup(word,board)
   samplewordarray.each do |build|
     board.each do |compare|
       if compare[2] === build
-        j = compare[0]
-        k = compare[1]
+        j = compare[0].to_i
+        k = compare[1].to_i
         individuallocation.push [j,k]
       end
     end
@@ -109,7 +121,11 @@ end
 def wordremover(xyset, board)
   xyset.each do |removeletter|
     board.each do |checkcoords|
-      # if xy vals match, change space to blank
+      xcoord = checkcoords[0].to_i
+      ycoord = checkcoords[1].to_i
+      if removeletter[0] == xcoord && removeletter[1] == ycoord
+        checkcoords[2] = " "
+      end
     end
   end
 end

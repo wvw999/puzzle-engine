@@ -21,7 +21,8 @@ class PuzzlesController < ApplicationController
     @solution = Validator.new
     @board = @puzzle.board
     @words = @puzzle.words
-    binding.pry
+    @solution = []
+    @working = solution_processor(@board, @words, @solution)
     json_response(@puzzle)
   end
 
