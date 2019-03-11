@@ -38,16 +38,16 @@ class Board # < ActiveRecord::Base
       end
     end
     if @nope == 0
-      @boardpackage = []
-      @board.each do |serialize|
-        boardspace = []
-        boardspace.push serialize.x
-        boardspace.push serialize.y
-        boardspace.push serialize.letter
-        @boardpackage.push boardspace
-      end
-      binding.pry
-      puzzle = Puzzle.new(:board => @boardpackage, :words => words).save
+      # commenting out code that writes new puzzles to DB since DB now has 2000+ puzzles stored in it
+      # @boardpackage = []
+      # @board.each do |serialize|
+      #   boardspace = []
+      #   boardspace.push serialize.x
+      #   boardspace.push serialize.y
+      #   boardspace.push serialize.letter
+      #   @boardpackage.push boardspace
+      # end
+      # puzzle = Puzzle.new(:board => @boardpackage, :words => words).save
       return [@board , words] #, @placed]
     else
       return false
