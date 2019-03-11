@@ -3,39 +3,64 @@ testboard = [["1","1","t"],["1","2","e"],["1","3","d"],["1","4","h"],["1","5","c
 testwords = ["technology","basketball","detective","dependent","soccer","sample","board","malay","fold"]
 
 wordspermuted = testwords.permutation.to_a
-
+wordarraylength = testwords.length
 wordsindex = 1
 solutionfound = false
+tempboard = testboard.clone
 
-until wordsindex == wordspermuted.length || solutionfound == true do |looptosolve|
-  # call block to look permute array word
+# will need to add process to remove words from board
+# also will need to remove "found" words from "words on board" storage area
+# which of course is not defined by the above data
 
-  # call block to permuted = word_permuter(alllocations)
-
-
-end
-
-
-samplewordarray = sampleword.split('').to_a
-word_len = sampleword.length
-alllocations = []
-individuallocation = []
-samplewordarray.each do |build|
-  testboard.each do |compare|
-    if compare[2] === build
-      j = compare[0]
-      k = compare[1]
-      individuallocation.push [j,k]
+def solution_processor
+  until wordsindex == wordspermuted.length || solutionfound == true
+    current = wordspermuted[wordsindex]
+    currentfail = false
+    while currentfail == false || solutionfound == false
+      attemptindex = 0
+      wordarraylength.times do |checkeachword|
+        xyletters = word_letter_lookup(current[attemptindex], testboard)
+        if xyletters == false
+          currentfail == true
+        else
+          permutedword = word_permuter(xyletters)
+          attemptindex += 1
+        end
+        proofedlist = listproofer
+      end
     end
+    wordsindex += 1
   end
-  alllocations.push individuallocation
-  individuallocation = []
 end
 
-puts "this is alllocations"
-print alllocations
-puts "\n\n\n"
 
+
+# builds array of all xy vals for all letters in a word
+def word_letter_lookup(word,board)
+  samplewordarray = word.split('').to_a
+  word_len = word.length
+  alllocations = []
+  individuallocation = []
+  samplewordarray.each do |build|
+    board.each do |compare|
+      if compare[2] === build
+        j = compare[0]
+        k = compare[1]
+        individuallocation.push [j,k]
+      end
+    end
+    alllocations.push individuallocation
+    individuallocation = []
+  end
+  if alllocations == []
+    return false
+  else
+    return alllocations
+  end
+end
+
+# builds an array of arrays of all possible permutations
+# of letters assembled by word_letter_lookup
 def word_permuter(input)
   input.reduce([]) do |whole_calculation, new_group|
 
