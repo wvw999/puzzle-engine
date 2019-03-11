@@ -13,6 +13,13 @@ def solution_processor(board, words, solution)
   10.times do
     wordpert = wordspermuted[permutedindex]
     gogetter = recursing(board, wordpert, solution)
+    if solution == []
+      puts "no solution found"
+    else
+      print solution
+    end
+    binding.pry
+    permutedindex += 1
   end
 end
 
@@ -25,29 +32,28 @@ def recursing(board, words, solution)
   # if no values of first word register
   # kick loop back to previous level
 
-  solutionfound = false
   tempboard = board.clone
   xyletters = word_letter_lookup(words[0], testboard)
-  if xyletters
-    permutedword = word_permuter(xyletters)
-    proofedlist = wordlistproofer(permutedwords)
+  permutedword = word_permuter(xyletters)
+  proofedlist = wordlistproofer(permutedwords)
+  if proofedlist
+    lesswords = words.delete_at(0)
+    if words.length == 1
+      solution.push proofedlist[0]
+      return solution
+    else
+      proofedlist.each do |eachcheck|
+        wordremover(eachcheck, tempboard)
+        puzzleupdater(tempboard)
+        solution.push eachcheck
+        recursing(tempboard, lesswords, solution)
+      end
+    end
   else
     return false
   end
-  lesswords = words.delete_at(0)
-  if word.length == 1
-    solutionfound = true
-    return solutionfound
-  else
-    proofedlist.each do |recurse|
-      wordremover(recurse, tempboard)
-      recursing(tempboard, lesswords, solution)
-
-    end
-  end
 end
 
-# builds array of all xy vals for all letters in a word
 def word_letter_lookup(word,board)
   samplewordarray = word.split('').to_a
   word_len = word.length
@@ -71,8 +77,6 @@ def word_letter_lookup(word,board)
   end
 end
 
-# builds an array of arrays of all possible permutations
-# of letters assembled by word_letter_lookup
 def word_permuter(input)
   input.reduce([]) do |whole_calculation, new_group|
 
@@ -130,7 +134,7 @@ def wordremover(xyset, board)
   end
 end
 
-def puzzleupdate(board)
+def puzzleupdater(board)
   tempboard = []
   print testboard
     xcounter = 1
