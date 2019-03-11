@@ -1,27 +1,3 @@
-require('benchmark')
-
-# reminders
-
-  # need lazy mode, need to research
-# step 1 - generate permutation list of words on board
-    # permutationlist = testwords.permutation.to_a
-    # print permutationlist
-
-    # the first word functionality is working, need to build lazy mode.
-    # also need to update code for new DB storage format, not x=, y=
-# step 2 - grab first value in list of permutations, grab first word in list
-
-    # step 3 - build permutations list of letters in first word
-
-    # step 4 - filter all non-contiguous entries in list, fail if no remaining entries
-
-      # re-draw code ready
-    # step 5 - re-draw board after removing a word
-
-# repeat steps 3, 4, 5, return true if able to complete list, otherwise fail and return to step 2
-
-
-
 #
 # testwords = ["responsibility", "position", "eastern", "search", "monkey", "media", "photo", "chief", "than", "nose"]
 #
@@ -37,6 +13,8 @@ require('benchmark')
 
 testboard = [["1","1"," "],["1","2","e"],["1","3","t"],["1","4","n"],["1","5","e"],["1","6","c"],["1","7","s"],["1","8","i"],["2","1","a"],["2","2","i"],["2","3"," "],["2","4","m"],["2","5","o"],["2","6","d"],["2","7","p"],["2","8","e"],["3","1","l"],["3","2","r"],["3","3","e"],["3","4","n"],["3","5","y"],["3","6","r"],["3","7","r"],["3","8","a"],["4","1","v"],["4","2","n"],["4","3","a"],["4","4","s"],["4","5","m"],["4","6","a"],["4","7","a"],["4","8","n"],["5","1","g"],["5","2","a"],["5","3","i"],["5","4","e"],["5","5","u"],["5","6","m"],["5","7","r"],["5","8","o"],["6","1","u"],["6","2","d"],["6","3","t"],["6","4","v"],["6","5","e"],["6","6","s"],["6","7","m"],["6","8","u"],["7","1","e"],["7","2","n"],["7","3","r"],["7","4","d"],["7","5","e"],["7","6","c"],["7","7","n"],["7","8","l"],["8","1","v"],["8","2","o"],["8","3","b"],["8","4","i"],["8","5","r"],["8","6","d"],["8","7","i"],["8","8","s"]]
 
+puzz = Puzzle.find(100)
+binding.pry
 
 sampleword = "snakes"
 
