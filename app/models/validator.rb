@@ -5,17 +5,21 @@ class Validator
 
 end
 
-def solution_processor(board, words, solution)
+def solution_processor(board, words, solution, solved)
   wordspermuted = words.permutation.to_a
   wordarraylength = words.length
   runningcopy = board.clone
   permutedindex = 0
-  10.times do
+  2.times do
+    puts "loop number #{permutedindex}"
     wordpert = wordspermuted[permutedindex]
-    gogetter = recursing(board, wordpert, solution)
+    puts "here is wordpert #{wordpert}"
+    gogetter = recursing(board, wordpert, solution, solved)
     if solution == []
       puts "no solution found"
     else
+      print solved
+      puts " "
       print solution
     end
     binding.pry
@@ -23,43 +27,50 @@ def solution_processor(board, words, solution)
   end
 end
 
-def recursing(board, words, solution)
-  # needs to look up first word in permuted arr
-  # find valid locations for that word
-  # loop over each trying to find a path through the board
-  # if valid path to next word found, recurse to repeat this for next word in list
-  # thus, if valid, remove fisrt value in permuted list, pass to self in recursion
-  # if no values of first word register
-  # kick loop back to previous level
-
-  tempboard = board.clone
-  xyletters = word_letter_lookup(words[0], testboard)
-  permutedword = word_permuter(xyletters)
-  proofedlist = wordlistproofer(permutedwords)
-  if proofedlist
-    lesswords = words.delete_at(0)
-    if words.length == 1
-      solution.push proofedlist[0]
-      return solution
-    else
-      proofedlist.each do |eachcheck|
-        wordremover(eachcheck, tempboard)
-        puzzleupdater(tempboard)
-        solution.push eachcheck
-        recursing(tempboard, lesswords, solution)
+def recursing(board, words, solution, solved)
+  unless solved == 1
+    puts "trying word #{words[0]} out of list #{words}"
+    length = words[0].length
+    tempboard = board.clone
+    xyletters = word_letter_lookup(words[0], tempboard)
+    puts "was able to build xyletters #{xyletters}\n\n"
+    permutedwordlist = word_permuter(xyletters)
+    puts "was able to build permutedwordlist\n\n"
+    proofedlist = wordlistproofer(permutedwordlist, length)
+    puts "was able to build proofedlist #{proofedlist}\n\n"
+    if proofedlist
+      puts "this is words, from which we delete just now #{words}\n\n"
+      lesswords = words.delete_at(0)
+      if words.length == 1
+        puts "words length equals 1 #{words}\n\n"
+        solution.push proofedlist[0]
+        solved = 1
+        return solution
+      else
+        proofedlist.each do |eachcheck|
+          puts "working on eachcheck #{eachcheck}"
+          wordremover(eachcheck, tempboard)
+          puts "got past wordremover"
+          puzzleupdater(tempboard)
+          puts "got past puzzleupdater"
+          solution.push eachcheck
+          puts "added eachcheck to solution #{solution}"
+          recursing(tempboard, lesswords, solution, solved)
+        end
       end
+    else
+      puts "hit false at end of a recurse attempt"
+      return false
     end
-  else
-    return false
   end
 end
 
 def word_letter_lookup(word,board)
-  samplewordarray = word.split('').to_a
-  word_len = word.length
+  wordarray = word.split('').to_a
+  word_len = wordarray.length
   alllocations = []
   individuallocation = []
-  samplewordarray.each do |build|
+  wordarray.each do |build|
     board.each do |compare|
       if compare[2] === build
         j = compare[0].to_i
@@ -92,12 +103,12 @@ def word_permuter(input)
   end
 end
 
-def wordlistproofer(list)
+def wordlistproofer(list, len)
   proofed_list = []
   list.each do |process|
       indexofsolution = 0
       failed = 0
-      (word_len-1).times do |checkpairs|
+      (len-1).times do |checkpairs|
         first = process[indexofsolution]
         second = process[indexofsolution+1]
         xlist = [first[-2], first[-2]-1, first[-2]+1]
@@ -114,10 +125,13 @@ def wordlistproofer(list)
         # print process
         # puts " "
         proofed_list.push process
-      else
-        puts "boo"
       end
       failed = 0
+  end
+  proofed_list.each do |dropdupes|
+    if dropdupes.uniq.length < len
+      proofed_list.delete dropdupes
+    end
   end
   return proofed_list
 end
@@ -136,7 +150,7 @@ end
 
 def puzzleupdater(board)
   tempboard = []
-  print testboard
+  print tempboard
     xcounter = 1
   8.times do |countcols|
     outputarr = []

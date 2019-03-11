@@ -22,7 +22,8 @@ class PuzzlesController < ApplicationController
     @board = @puzzle.board
     @words = @puzzle.words
     @solution = []
-    @working = solution_processor(@board, @words, @solution)
+    @solved = 0
+    @working = solution_processor(@board, @words, @solution, @solved)
     json_response(@puzzle)
   end
 

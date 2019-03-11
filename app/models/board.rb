@@ -48,7 +48,6 @@ class Board # < ActiveRecord::Base
       #   @boardpackage.push boardspace
       # end
       # puzzle = Puzzle.new(:board => @boardpackage, :words => words).save
-      puzz = Puzzle.find(100)
       binding.pry
       return [@board , words] #, @placed]
     else
