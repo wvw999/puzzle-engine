@@ -44,7 +44,7 @@ puts "this is alllocations"
 print alllocations
 puts "\n\n\n"
 
-# def sentence_maker(input)
+# def word_permuter(input)
 #   input.reduce([]) do |memo, value|
 #     value.reduce([]) do |m, new_word|
 #       if memo.count > 0
@@ -58,7 +58,7 @@ puts "\n\n\n"
 #   end
 # end
 
-def sentence_maker(input)
+def word_permuter(input)
   input.reduce([]) do |whole_calculation, new_group|
 
     if whole_calculation.count == 0
@@ -74,7 +74,7 @@ def sentence_maker(input)
 end
 
 
-permuted = sentence_maker(alllocations)#.map {|x| x.join(" ") }.sort
+permuted = word_permuter(alllocations)#.map {|x| x.join(" ") }.sort
 
 puts "this is permuted"
 print permuted
@@ -93,14 +93,6 @@ permuted.each do |process|
       second = process[indexofsolution+1]
       xlist = [first[-2], first[-2]-1, first[-2]+1]
       ylist = [first[-1], first[-1]-1, first[-1]+1]
-      # print first
-      # puts " "
-      # print second
-      # puts " "
-      # print xlist
-      # puts " "
-      # print ylist
-      # puts " "
       if xlist.include?(second[0]) && ylist.include?(second[1])
         a = 1
       else
@@ -139,5 +131,5 @@ print proofed_list
 # repeat steps 3, 4, 5, return true if able to complete list, otherwise fail and return to step 2
 
 # puts Benchmark.measure {
-#   puts sentence_maker(input).map{|x| x.join(" ") }.sort
+#   puts word_permuter(input).map{|x| x.join(" ") }.sort
 # }
