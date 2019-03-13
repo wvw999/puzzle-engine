@@ -28,7 +28,8 @@ def solution_processor(board, words, solution, solved)
 end
 
 def recursing(board, words, solution, solved)
-  unless solved == 1
+  failed = false
+  unless solved == 1 || failed == true
     puts "trying word #{words[0]} out of list #{words}"
     length = words[0].length
     tempboard = board.clone
@@ -39,27 +40,28 @@ def recursing(board, words, solution, solved)
     proofedlist = wordlistproofer(permutedwordlist, length)
     puts "was able to build proofedlist #{proofedlist}\n\n"
     if proofedlist
-      puts "this is words, from which we delete just now #{words}\n\n"
-      lesswords = words.delete_at(0)
+      puts "this is words, #{words[0]} , from which we delete just now #{words}\n\n"
       if words.length == 1
         puts "words length equals 1 #{words}\n\n"
         solution.push proofedlist[0]
         solved = 1
         return solution
       else
+        lesswords = words.delete_at(0)
         proofedlist.each do |eachcheck|
           puts "working on eachcheck #{eachcheck}"
-          wordremover(eachcheck, tempboard)
+          removedword = wordremover(eachcheck, tempboard)
           puts "got past wordremover"
-          puzzleupdater(tempboard)
+          updatedboard = puzzleupdater(removedword)
           puts "got past puzzleupdater"
           solution.push eachcheck
           puts "added eachcheck to solution #{solution}"
-          recursing(tempboard, lesswords, solution, solved)
+          recursing(updatedboard, lesswords, solution, solved)
         end
       end
     else
       puts "hit false at end of a recurse attempt"
+      failed = true
       return false
     end
   end
@@ -146,6 +148,7 @@ def wordremover(xyset, board)
       end
     end
   end
+  return board
 end
 
 def puzzleupdater(board)
