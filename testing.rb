@@ -14,7 +14,7 @@
 blankboard = [{"x":1,"y":1,"letter":" "},{"x":1,"y":2,"letter":" "},{"x":1,"y":3,"letter":" "},{"x":1,"y":4,"letter":" "},{"x":1,"y":5,"letter":" "},{"x":1,"y":6,"letter":" "},{"x":1,"y":7,"letter":" "},{"x":1,"y":8,"letter":" "},
 {"x":2,"y":1,"letter":" "},{"x":2,"y":2,"letter":" "},{"x":2,"y":3,"letter":" "},{"x":2,"y":4,"letter":" "},{"x":2,"y":5,"letter":" "},{"x":2,"y":6,"letter":" "},{"x":2,"y":7,"letter":" "},{"x":2,"y":8,"letter":" "},
 {"x":3,"y":1,"letter":"b"},{"x":3,"y":2,"letter":" "},{"x":3,"y":3,"letter":" "},{"x":3,"y":4,"letter":" "},{"x":3,"y":5,"letter":" "},{"x":3,"y":6,"letter":" "},{"x":3,"y":7,"letter":" "},{"x":3,"y":8,"letter":" "},
-{"x":4,"y":1,"letter":"o"},{"x":4,"y":2,"letter":"h"},{"x":4,"y":3,"letter":"a"},{"x":4,"y":4,"letter":"t"},{"x":4,"y":5,"letter":" "},{"x":4,"y":6,"letter":" "},{"x":4,"y":7,"letter":" "},{"x":4,"y":8,"letter":" "},
+{"x":4,"y":1,"letter":"o"},{"x":4,"y":2,"letter":" "},{"x":4,"y":3,"letter":" "},{"x":4,"y":4,"letter":" "},{"x":4,"y":5,"letter":" "},{"x":4,"y":6,"letter":" "},{"x":4,"y":7,"letter":" "},{"x":4,"y":8,"letter":" "},
 {"x":5,"y":1,"letter":"b"},{"x":5,"y":2,"letter":" "},{"x":5,"y":3,"letter":" "},{"x":5,"y":4,"letter":" "},{"x":5,"y":5,"letter":" "},{"x":5,"y":6,"letter":" "},{"x":5,"y":7,"letter":" "},{"x":5,"y":8,"letter":" "},
 {"x":6,"y":1,"letter":" "},{"x":6,"y":2,"letter":" "},{"x":6,"y":3,"letter":" "},{"x":6,"y":4,"letter":" "},{"x":6,"y":5,"letter":" "},{"x":6,"y":6,"letter":" "},{"x":6,"y":7,"letter":" "},{"x":6,"y":8,"letter":" "},
 {"x":7,"y":1,"letter":" "},{"x":7,"y":2,"letter":" "},{"x":7,"y":3,"letter":" "},{"x":7,"y":4,"letter":" "},{"x":7,"y":5,"letter":" "},{"x":7,"y":6,"letter":" "},{"x":7,"y":7,"letter":" "},{"x":7,"y":8,"letter":" "},
@@ -40,7 +40,6 @@ def valid_space_gatherer(board)
     end
     previousblank = 0
     bobbert = outputarr.select { |space| space[:letter] == " "}
-    puts bobbert
     if bobbert != []
       outputarr.each do |adding|
         tempboard.push adding
@@ -51,9 +50,86 @@ def valid_space_gatherer(board)
   return tempboard
 end
 
-print valid_space_gatherer(blankboard)
+# need to mod this to push a letter into the output arr, and also to grab its index, and also to remember the index and pass it back to the request
+# instead, mod this to make an array of arrays- one for each column on the board, arrays have letters only
+# use .length to pick an array, check to make sure it has a blank space in it,
+# then use
+def puzzleupdater(board)
+  tempboard = []
+  # print tempboard
+    xcounter = 1
+  8.times do |countcols|
+    outputarr = []
+    ycounter = 1
+    board.each do |collect|
+      if collect[:x] == xcounter && collect[:y] == ycounter
+        if ("a".."z").include?(collect[:letter])
+          puts "#{collect}\n\n"
+          outputarr.push collect[:letter]
+        end
+        ycounter += 1
+      end
+    end
+    tempboard.push outputarr
+    # print outputarr
+    xcounter += 1
+  end
+  # (8 - outputarr.length).times do |addblank|
+  #   outputarr.push " "
+  # end
+  return tempboard
+end
 
+bork = puzzleupdater(blankboard)
 
+def letterinsert(letter,columns)
+  previous = []
+  while previous == []
+    arrayselect = (0..7).sample
+    targetarr = columns[arrayselect]
+    arrlen = targetarr.length
+    if arrlen > 7
+      previous == " "
+    else
+      insertindex = (0..arrlen).sample
+      targetarr.insert(insertindex, letter)
+      yindex = (8 - targetarr.length)
+      columns[arrayselect] = targetarr
+      previous = [arrayselect,yindex]
+    end
+  end
+end
+
+def letteradder(word, board)
+  prev = " "
+  word.each do |placeletter|
+    partial = valid_space_gatherer(board)
+    if prev == " "
+      data = partial.sample
+      if data[:letter] != " "
+        neighbor = board.select { |num| num[:x] == data[:x] && num[:y] == (data[:y] + 1) }
+        neighbor[0][:letter] = data[:letter]
+      end
+    else
+      # this ugly mess locates all spaces surrounding the previous letter
+      prevneighbor = partial.select { |num| ([prev[:x]].include?(num[:x]) && [(prev[:y]-1),(prev[:y]+1)].include?(num[:y])) || ([(prev[:x]-1),(prev[:x]+1)].include?(num[:x]) && [prev[:y]].include?(num[:y])) }
+      # this grabs a neighboring space from the prevneighbor array
+      data = prevneighbor.sample
+      if data[:letter] != " "
+        neighbor = board.select { |num| num[:x] == data[:x] && num[:y] == (data[:y] + 1) }
+        neighbor[0][:letter] = data[:letter]
+      end
+    end
+    exact = board.select { |num| num[:x] == data[:x] && num[:y] == data[:y] }
+    exact[0][:letter] = placeletter
+    prev = Hash[x, data[:x], y, data[:y], letter, placeletter]
+  end
+end
+
+# testing = valid_space_gatherer(blankboard)
+# letteradder("f", testing, blankboard, prevletter)
+# # need to update main board with completed letter from letteradder
+# print blankboard.select { |num| num[:letter] == "f" }
 
 
 

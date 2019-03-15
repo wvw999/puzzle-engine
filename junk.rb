@@ -13,6 +13,21 @@
 
 blankboard = [{"x":1,"y":1,"letter":" "},{"x":1,"y":2,"letter":" "},{"x":1,"y":3,"letter":" "}]
 
+
+blankboard = [{"x":1,"y":1,"letter":" "},{"x":1,"y":2,"letter":" "},{"x":4,"y":3,"letter":" "}]
+
+irb(main):009:0> blankboard.select { |num| (1..2).include?(num[:y] }
+irb(main):010:1> blankboard.select { |num| (1..2).include?(num[:y]) }
+irb(main):011:1> blankboard.select { |num| [1,2].include?(num[:y]) }
+irb(main):012:1> blankboard.select { |num| (1,2).include?(num[:y]) }
+irb(main):013:1> blankboard.select { |num| (1,2.include?(num[:y]) }
+irb(main):014:2> blankboard = [{"x":1,"y":1,"letter":" "},{"x":1,"y":2,"letter":" "},{"x":1,"y":3,"letter":" "}]
+irb(main):015:2> blankboard.select { |num| (1,2.include?(num[:y]) }
+irb(main):016:3> blankboard.select { |num| num[:y] == 2 && num[:x] == 1 && num[:letter] != "b"}
+irb(main):017:3> blankboard.select { |num| num[:y] == 2 && num[:x] == 1 && num[:letter] == " "}
+irb(main):018:3> blankboard.select { |num| num[:y] == 2 && num[:x] == 1 && num[:letter] == " "}
+
+
 [[4, 5], [3, 4], [2, 5], [1, 4], [2, 3], [2, 2], [2, 1], [2, 2], [3, 1], [4, 1]],
 [[4, 5], [3, 4], [2, 5], [1, 4], [2, 3], [2, 2], [2, 1], [3, 2], [3, 1], [4, 1]],
 [[4, 5], [3, 4], [2, 5], [1, 4], [2, 3], [3, 2], [2, 1], [2, 2], [3, 1], [4, 1]],
