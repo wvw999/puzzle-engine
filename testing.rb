@@ -74,9 +74,8 @@ def puzzlesplitter(board)
   return tempboard
 end
 
-bork = puzzlesplitter(blankboard)
-
-def firstletterinsert(letter,columns)
+def firstletterinsert(letter,board)
+  columns = puzzlesplitter(board)
   while previous == []
     arrayselect = rand(0..7)
     targetarr = columns[arrayselect]
@@ -100,35 +99,51 @@ def firstletterinsert(letter,columns)
       addblank.push " "
     end
   end
-  return columns, previous
+  columnwriter(columns,board)
+  return previous
 end
 
-def subsletterinsert(letter,board,columns,previous)
+def remainingletterinsert(letter,board,previous)
+  columns = puzzlesplitter(board)
+  prevxindex = previous[0]
+  prevyindex = previous[1]
   letteradded = false
   while letteradded = false
-    
+    #magic goes here
   end
+  columnwriter(columns, board)
 end
 
-def columnwriter(columns)
+def columnwriter(columns, board)
   tempboard = []
   xcounter = 0
   8.times do
     ycounter = 0
     8.times do
-      veryable = columns[0][xcounter][ycounter]
-      newhash = Hash["x", xcounter+1, "y", ycounter+1, "letter", veryable]
+      newhash = Hash["x", xcounter+1, "y", ycounter+1, "letter", columns[0][xcounter][ycounter]]
       tempboard.push newhash
       ycounter += 1
     end
     xcounter += 1
   end
-  return tempboard
+  board = tempboard
 end
 
-sausage = letterinsert("f",blankboard,bork,[])
-updatedboard = columnwriter(sausage)
-print updatedboard
+word = "furry"
+
+def machine(word,board)
+wordarr = word.split("")
+  wordarr.each do |process|
+    if process == wordarr[0]
+      sausage = firstletterinsert(letter),board)
+    else
+      biscuit = remainingletterinsert(letter,blankboard,sausage)
+    end
+  end
+return board
+end
+
+machine(word,blankboard)
 
 # def letteradder(word, board)
 #   prev = " "
