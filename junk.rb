@@ -16,6 +16,16 @@ blankboard = [{"x":1,"y":1,"letter":" "},{"x":1,"y":2,"letter":" "},{"x":1,"y":3
 
 blankboard = [{"x":1,"y":1,"letter":" "},{"x":1,"y":2,"letter":" "},{"x":4,"y":3,"letter":" "}]
 
+
+  {"x"=>1, "y"=>1, "letter"=>" "}, {"x"=>1, "y"=>2, "letter"=>" "}, {"x"=>1, "y"=>3, "letter"=>" "}, {"x"=>1, "y"=>4, "letter"=>" "}, {"x"=>1, "y"=>5, "letter"=>" "}, {"x"=>1, "y"=>6, "letter"=>" "}, {"x"=>1, "y"=>7, "letter"=>" "}  {"x"=>1, "y"=>8, "letter"=>" "}
+  {"x"=>2, "y"=>1, "letter"=>" "}, {"x"=>2, "y"=>2, "letter"=>" "}, {"x"=>2, "y"=>3, "letter"=>" "}, {"x"=>2, "y"=>4, "letter"=>" "}, {"x"=>2, "y"=>5, "letter"=>" "}, {"x"=>2, "y"=>6, "letter"=>" "}  {"x"=>2, "y"=>7, "letter"=>" "}  {"x"=>2, "y"=>8, "letter"=>" "}
+  {"x"=>3, "y"=>1, "letter"=>"b"}, {"x"=>3, "y"=>2, "letter"=>" "}, {"x"=>3, "y"=>3, "letter"=>" "}, {"x"=>3, "y"=>4, "letter"=>" "}, {"x"=>3, "y"=>5, "letter"=>" "}  {"x"=>3, "y"=>6, "letter"=>" "}, {"x"=>3, "y"=>7, "letter"=>" "}, {"x"=>3, "y"=>8, "letter"=>" "}
+  {"x"=>4, "y"=>1, "letter"=>"o"}, {"x"=>4, "y"=>2, "letter"=>"f"}, {"x"=>4, "y"=>3, "letter"=>" "}, {"x"=>4, "y"=>4, "letter"=>" "}  {"x"=>4, "y"=>5, "letter"=>" "}  {"x"=>4, "y"=>6, "letter"=>" "}, {"x"=>4, "y"=>7, "letter"=>" "}, {"x"=>4, "y"=>8, "letter"=>" "},
+  {"x"=>5, "y"=>1, "letter"=>"b"}, {"x"=>5, "y"=>2, "letter"=>" "}, {"x"=>5, "y"=>3, "letter"=>" "}  {"x"=>5, "y"=>4, "letter"=>" "}, {"x"=>5, "y"=>5, "letter"=>" "}, {"x"=>5, "y"=>6, "letter"=>" "}, {"x"=>5, "y"=>7, "letter"=>" "}, {"x"=>5, "y"=>8, "letter"=>" "}
+  {"x"=>6, "y"=>1, "letter"=>" "}, {"x"=>6, "y"=>2, "letter"=>" "}  {"x"=>6, "y"=>3, "letter"=>" "}, {"x"=>6, "y"=>4, "letter"=>" "}, {"x"=>6, "y"=>5, "letter"=>" "}, {"x"=>6, "y"=>6, "letter"=>" "}, {"x"=>6, "y"=>7, "letter"=>" "}, {"x"=>6, "y"=>8, "letter"=>" "}
+  {"x"=>7, "y"=>1, "letter"=>" "}  {"x"=>7, "y"=>2, "letter"=>" "}, {"x"=>7, "y"=>3, "letter"=>" "}, {"x"=>7, "y"=>4, "letter"=>" "}, {"x"=>7, "y"=>5, "letter"=>" "}, {"x"=>7, "y"=>6, "letter"=>" "}, {"x"=>7, "y"=>7, "letter"=>" "}, {"x"=>7, "y"=>8, "letter"=>" "}
+  {"x"=>8, "y"=>1, "letter"=>"x"}  {"x"=>8, "y"=>2, "letter"=>"x"}, {"x"=>8, "y"=>3, "letter"=>"x"}, {"x"=>8, "y"=>4, "letter"=>"x"}, {"x"=>8, "y"=>5, "letter"=>"x"}, {"x"=>8, "y"=>6, "letter"=>"x"}, {"x"=>8, "y"=>7, "letter"=>"x"}  {"x"=>8, "y"=>8, "letter"=>"x"}]
+
 irb(main):009:0> blankboard.select { |num| (1..2).include?(num[:y] }
 irb(main):010:1> blankboard.select { |num| (1..2).include?(num[:y]) }
 irb(main):011:1> blankboard.select { |num| [1,2].include?(num[:y]) }

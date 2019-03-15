@@ -54,9 +54,8 @@ end
 # instead, mod this to make an array of arrays- one for each column on the board, arrays have letters only
 # use .length to pick an array, check to make sure it has a blank space in it,
 # then use
-def puzzleupdater(board)
+def puzzlesplitter(board)
   tempboard = []
-  # print tempboard
     xcounter = 1
   8.times do |countcols|
     outputarr = []
@@ -64,67 +63,91 @@ def puzzleupdater(board)
     board.each do |collect|
       if collect[:x] == xcounter && collect[:y] == ycounter
         if ("a".."z").include?(collect[:letter])
-          puts "#{collect}\n\n"
           outputarr.push collect[:letter]
         end
         ycounter += 1
       end
     end
     tempboard.push outputarr
-    # print outputarr
     xcounter += 1
   end
-  # (8 - outputarr.length).times do |addblank|
-  #   outputarr.push " "
-  # end
   return tempboard
 end
 
-bork = puzzleupdater(blankboard)
+bork = puzzlesplitter(blankboard)
 
-def letterinsert(letter,columns)
-  previous = []
-  while previous == []
-    arrayselect = (0..7).sample
-    targetarr = columns[arrayselect]
-    arrlen = targetarr.length
-    if arrlen > 7
-      previous == " "
-    else
-      insertindex = (0..arrlen).sample
-      targetarr.insert(insertindex, letter)
-      yindex = (8 - targetarr.length)
-      columns[arrayselect] = targetarr
-      previous = [arrayselect,yindex]
-    end
-  end
-end
-
-def letteradder(word, board)
-  prev = " "
-  word.each do |placeletter|
-    partial = valid_space_gatherer(board)
-    if prev == " "
-      data = partial.sample
-      if data[:letter] != " "
-        neighbor = board.select { |num| num[:x] == data[:x] && num[:y] == (data[:y] + 1) }
-        neighbor[0][:letter] = data[:letter]
-      end
-    else
-      # this ugly mess locates all spaces surrounding the previous letter
-      prevneighbor = partial.select { |num| ([prev[:x]].include?(num[:x]) && [(prev[:y]-1),(prev[:y]+1)].include?(num[:y])) || ([(prev[:x]-1),(prev[:x]+1)].include?(num[:x]) && [prev[:y]].include?(num[:y])) }
-      # this grabs a neighboring space from the prevneighbor array
-      data = prevneighbor.sample
-      if data[:letter] != " "
-        neighbor = board.select { |num| num[:x] == data[:x] && num[:y] == (data[:y] + 1) }
-        neighbor[0][:letter] = data[:letter]
+def letterinsert(letter,columns,previous)
+  if previous == []
+    while previous == []
+      arrayselect = rand(0..7)
+      targetarr = columns[arrayselect]
+      arrlen = targetarr.length
+      if arrlen > 7
+        previous = []
+      else
+        insertindex = rand(0..arrlen)
+        targetarr.insert(insertindex, letter)
+        yindex = ((8 - targetarr.length) + insertindex)
+        columns[arrayselect] = targetarr
+        previous = [(arrayselect+1),yindex]
       end
     end
-    exact = board.select { |num| num[:x] == data[:x] && num[:y] == data[:y] }
-    exact[0][:letter] = placeletter
-    prev = Hash[x, data[:x], y, data[:y], letter, placeletter]
+  else
+    # do the subsequent letters stuff here
   end
+  columns.each do |addblank|
+    (8 - addblank.length).times do |fillarr|
+      addblank.push " "
+    end
+  end
+  return columns, previous
 end
+
+def columnwriter(columns)
+  tempboard = []
+  xcounter = 0
+  8.times do
+    ycounter = 0
+    8.times do
+      veryable = columns[0][xcounter][ycounter]
+      newhash = Hash["x", xcounter+1, "y", ycounter+1, "letter", veryable]
+      tempboard.push newhash
+      ycounter += 1
+    end
+    xcounter += 1
+  end
+  return tempboard
+end
+
+sausage = letterinsert("f",bork)
+updatedboard = columnwriter(sausage)
+print updatedboard
+
+# def letteradder(word, board)
+#   prev = " "
+#   word.each do |placeletter|
+#     partial = valid_space_gatherer(board)
+#     if prev == " "
+#       data = partial.sample
+#       if data[:letter] != " "
+#         neighbor = board.select { |num| num[:x] == data[:x] && num[:y] == (data[:y] + 1) }
+#         neighbor[0][:letter] = data[:letter]
+#       end
+#     else
+#       # this ugly mess locates all spaces surrounding the previous letter
+#       prevneighbor = partial.select { |num| ([prev[:x]].include?(num[:x]) && [(prev[:y]-1),(prev[:y]+1)].include?(num[:y])) || ([(prev[:x]-1),(prev[:x]+1)].include?(num[:x]) && [prev[:y]].include?(num[:y])) }
+#       # this grabs a neighboring space from the prevneighbor array
+#       data = prevneighbor.sample
+#       if data[:letter] != " "
+#         neighbor = board.select { |num| num[:x] == data[:x] && num[:y] == (data[:y] + 1) }
+#         neighbor[0][:letter] = data[:letter]
+#       end
+#     end
+#     exact = board.select { |num| num[:x] == data[:x] && num[:y] == data[:y] }
+#     exact[0][:letter] = placeletter
+#     prev = Hash[x, data[:x], y, data[:y], letter, placeletter]
+#   end
+# end
 
 # testing = valid_space_gatherer(blankboard)
 # letteradder("f", testing, blankboard, prevletter)
