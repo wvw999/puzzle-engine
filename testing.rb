@@ -76,31 +76,38 @@ end
 
 bork = puzzlesplitter(blankboard)
 
-def letterinsert(letter,columns,previous)
-  if previous == []
-    while previous == []
-      arrayselect = rand(0..7)
-      targetarr = columns[arrayselect]
-      arrlen = targetarr.length
-      if arrlen > 7
-        previous = []
-      else
-        insertindex = rand(0..arrlen)
-        targetarr.insert(insertindex, letter)
-        yindex = ((8 - targetarr.length) + insertindex)
-        columns[arrayselect] = targetarr
-        previous = [(arrayselect+1),yindex]
-      end
+def firstletterinsert(letter,columns)
+  while previous == []
+    arrayselect = rand(0..7)
+    targetarr = columns[arrayselect]
+    arrlen = targetarr.length
+    if arrlen > 7
+      previous = []
+    else
+      insertindex = rand(0..arrlen)
+      targetarr.insert(insertindex, letter)
+      yindex = ((8 - targetarr.length) + insertindex)
+      columns[arrayselect] = targetarr
+      previous = [(arrayselect+1),yindex]
     end
-  else
-    # do the subsequent letters stuff here
   end
+    # do the subsequent letters stuff here
+    # prevxindex = previous[0]
+    # prevyindex = previous[1]
+    # targetarr = columns[prevxindex]
   columns.each do |addblank|
     (8 - addblank.length).times do |fillarr|
       addblank.push " "
     end
   end
   return columns, previous
+end
+
+def subsletterinsert(letter,board,columns,previous)
+  letteradded = false
+  while letteradded = false
+    
+  end
 end
 
 def columnwriter(columns)
@@ -119,7 +126,7 @@ def columnwriter(columns)
   return tempboard
 end
 
-sausage = letterinsert("f",bork)
+sausage = letterinsert("f",blankboard,bork,[])
 updatedboard = columnwriter(sausage)
 print updatedboard
 
