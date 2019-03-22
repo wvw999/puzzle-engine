@@ -14,10 +14,10 @@ gem 'rspec-rails'
 gem "nokogiri", ">= 1.8.5"
 gem "rack", ">= 2.0.6"
 gem "loofah", ">= 2.2.3"
+gem 'pry'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  gem 'pry'
   gem 'factory_bot_rails'
   gem 'launchy'
   gem 'shoulda-matchers'
