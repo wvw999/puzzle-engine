@@ -11,6 +11,9 @@ blankboard = [{"x":1,"y":1,"letter":" "},{"x":1,"y":2,"letter":" "},{"x":1,"y":3
 
 testwords = ["responsibility", "position", "eastern", "search", "monkey", "media", "photo", "chief", "than", "nose"]
 
+# splits the game board into columns in order to add a letter to one of them
+# columns are arrays of letters only
+# spaces are omitted
 def puzzlesplitter(board)
   tempboard = []
     xcounter = 1
@@ -31,6 +34,8 @@ def puzzlesplitter(board)
   return tempboard
 end
 
+# builds and array of the X value of any column that is full
+# used to remove full columns from consideration when placing a letter
 def fullcol(board)
   tempboard = []
     xcounter = 1
@@ -53,6 +58,9 @@ def fullcol(board)
   return tempboard
 end
 
+# modifies the contents of neighbors
+# a blank space is allowed, but only one per column
+# any blank spaces above it must be removed - a letter cannot be placed with a blank space below it
 def spacereduce(neighbors)
   puts " here is neighbors inside of spacereduce #{neighbors}"
   returnarray = []
@@ -86,6 +94,12 @@ def spacereduce(neighbors)
   return returnarray
 end
 
+# modifies neighbors
+# when placing a letter, we can't allow the previously-placed letters of the currently-being-placed word to be altered
+# this removes them from neighbors so they cannot be altered
+# note: just realized this is more complex than I would prefer
+# previously placed letters might be interfered with by neigbormover
+# need a way to track letter placement that prevents that
 def removeprevious(neighbors,previous,board)
   puts " here is neighbors inside of removeprevious- #{neighbors}"
   puts " here is previous inside of removeprevious #{previous}"
@@ -104,6 +118,11 @@ def removeprevious(neighbors,previous,board)
   return neighbors
 end
 
+# if we have a candidate space to place our letter
+# if it is blank, we can just put the letter in it
+# but if it is not blank, we need to see if the space above it on the board is blank
+# if it is, then we move the letter from the candidate space up, and over-write the candidate space with our letter
+# this function is recursive: if it encounters yet another letter, it will attempt to check one level further up
 def neighbormover(candidate,letter,board,previous)
   neighborx = candidate[:x]
   neighbory = candidate[:y]+1
@@ -135,6 +154,54 @@ def neighbormover(candidate,letter,board,previous)
   return [candidatehash[0][:x], candidatehash[0][:y]],board
 end
 
+# updates a column after firstletterinsert runs
+def columnwriter(columns, board)
+  tempboard = []
+  xcounter = 0
+  columns.each do |fill|
+    if fill.length < 8
+      (8 - fill.length).times do
+        fill.push " "
+      end
+    end
+  end
+  8.times do
+    ycounter = 0
+    8.times do
+      newhash = Hash[:x, xcounter+1, :y, ycounter+1, :letter, columns[xcounter][ycounter]]
+      tempboard.push newhash
+      ycounter += 1
+    end
+    xcounter += 1
+  end
+  return tempboard
+end
+
+# for debug - dumps game board in a semi-readable state
+def outputviewer(board)
+  puts " "
+  xval = 0
+  8.times do |bim|
+    xval += 1
+    yval = 0
+    8.times do |bap|
+      yval += 1
+      print "#{xval} , #{yval} :"
+      board.each do |putz|
+        if putz[:x] == xval && putz[:y] == yval
+          print "\"#{putz[:letter]}\" "
+          if yval == 8
+            puts "\n"
+          end
+        end
+      end
+    end
+  end
+  puts "\n\n"
+end
+
+# covers the first letter of a word, which is a special case: it can go anywhere that is a not-full row
+# space must of course not be free-flotating.
 def firstletterinsert(letter,board)
   columns = puzzlesplitter(board)
   arrlen = 8
@@ -160,34 +227,40 @@ def firstletterinsert(letter,board)
   return previous, board
 end
 
+# complicated process - based on the location of the previously placed letter,
+# maps out the surrounding 8 spaces to see if any of them are acceptable locations for next letter
+# if so, uses neighbors, spacereduce, fullcol, removeprevious, neigbormover
+# currently laden with tons of debug because, while word placement runs (as opposed to crashing),
+# it is not working well
 def remainingletterinsert(letter,board,previous)
   prev = Hash[:x, previous[-1][0], :y, previous[-1][1]]
   letteradded = false
   neighbors = board.select { |num| ([prev[:x]].include?(num[:x]) && [(prev[:y]-1),(prev[:y]+1)].include?(num[:y])) || ([(prev[:x]-1),(prev[:x]+1)].include?(num[:x]) && [prev[:y]].include?(num[:y])) || ([(prev[:x]-1),(prev[:x]+1)].include?(num[:x]) && [(prev[:y]-1),(prev[:y]+1)].include?(num[:y])) }
+  # because we use .select to grab board values and board is a hash, if it only returns one value, it comes as a hash instead of an array, which jacks up other processing
   if neighbors.is_a?(Hash)
+    temparr = []
+    neighbors = temparr.push neighbors
     puts "CRAP!"
     binding.pry
   end
-  nofly = fullcol(board)
-  puts " here is neighbors before nofly #{neighbors}"
-  # if nofly.length > 0
-  #   if neighbors.is_a?(Hash)
-  #     temparr = []
-  #     neighbors = temparr.push neighbors
-  #   end
-  #   neighbors.each do |removefull|
-  #     if nofly.include?(removefull[:x])
-  #       id = neighbors.index(removefull)
-  #       neighbors = neighbors.delete_at(id)
-  #     end
-  #   end
-  # end
-  puts " here is neighbors after nofly #{neighbors}"
-  if neighbors.is_a?(Hash)
-    temparray = []
-    neighbors = temparray.push neighbors
-    puts " had to make neighbors into an array WOOOOT\n\n\n"
+  removefullcols = fullcol(board)
+  puts " here is neighbors before removefullcols #{neighbors}"
+  if removefullcols.length > 0
+    binding.pry
+    neighbors.each do |removefull|
+      if removefullcols.include?(removefull[:x])
+        id = neighbors.index(removefull)
+        neighbors = neighbors.delete_at(id)
+      end
+    end
   end
+  puts " here is neighbors after removefullcols #{neighbors}"
+
+  # if neighbors.is_a?(Hash)
+  #   temparray = []
+  #   neighbors = temparray.push neighbors
+  #   puts " had to make neighbors into an array WOOOOT\n\n\n"
+  # end
   neighbors = spacereduce(neighbors)
   puts " here is neighbors after spacereduce #{neighbors}"
   neighbors = removeprevious(neighbors,previous,board)
@@ -214,50 +287,7 @@ def remainingletterinsert(letter,board,previous)
   end
 
 end
-
-def columnwriter(columns, board)
-  tempboard = []
-  xcounter = 0
-  columns.each do |fill|
-    if fill.length < 8
-      (8 - fill.length).times do
-        fill.push " "
-      end
-    end
-  end
-  8.times do
-    ycounter = 0
-    8.times do
-      newhash = Hash[:x, xcounter+1, :y, ycounter+1, :letter, columns[xcounter][ycounter]]
-      tempboard.push newhash
-      ycounter += 1
-    end
-    xcounter += 1
-  end
-  return tempboard
-end
-
-def outputviewer(board)
-  xval = 0
-  8.times do |bim|
-    xval += 1
-    yval = 0
-    8.times do |bap|
-      yval += 1
-      print "#{xval} , #{yval} :"
-      board.each do |putz|
-        if putz[:x] == xval && putz[:y] == yval
-          print "\"#{putz[:letter]}\" "
-          if yval == 8
-            puts "\n"
-          end
-        end
-      end
-    end
-  end
-  puts "\n\n"
-end
-
+# main processor, takes the word and calls the correct processes for each letter
 def machine(word,board)
   resultboard = board.clone
   previous = []
@@ -287,6 +317,11 @@ def machine(word,board)
   return resultboard, previous
 end
 
+# not yet built - if colum 7, say, were full, and column 8 had three open spaces in it
+# no word could ever be placed there, and the attempt at placing all the words would fail.
+# somehow, need to incorporate checking for a bad placement after each word
+# then re-run placement for that word in case it was bad
+# this implies the state of the board prior to placing the word is still available...
 def orphancheck(board)
   # make sure no orphaned spaces
 end
