@@ -61,8 +61,8 @@ end
 # modifies the contents of neighbors
 # a blank space is allowed, but only one per column
 # any blank spaces above it must be removed - a letter cannot be placed with a blank space below it
+
 def spacereduce(neighbors)
-  puts " here is neighbors inside of spacereduce #{neighbors}"
   returnarray = []
   xval = 0
   8.times do |bim|
@@ -76,7 +76,6 @@ def spacereduce(neighbors)
         if punt == 1
           break
         end
-        puts " this is puzt #{putz}"
         if putz[:x] == xval && putz[:y] == yval
           temparray.push putz
           if putz[:letter] == " "
@@ -101,9 +100,8 @@ end
 # note: just realized this is more complex than I would prefer
 # previously placed letters might be interfered with by neigbormover
 # need a way to track letter placement that prevents that
+
 def removeprevious(neighbors,previous,board)
-  puts " here is neighbors inside of removeprevious- #{neighbors}"
-  puts " here is previous inside of removeprevious #{previous}"
   prevarray = []
   previous.each do |add|
     item = board.select { |num| num[:x] == add[0] && num[:y] == add[1]}
@@ -115,7 +113,6 @@ def removeprevious(neighbors,previous,board)
       neighbors.delete_at(id)
     end
   end
-  puts " here is neighbors #{neighbors}"
   return neighbors
 end
 
@@ -124,6 +121,7 @@ end
 # but if it is not blank, we need to see if the space above it on the board is blank
 # if it is, then we move the letter from the candidate space up, and over-write the candidate space with our letter
 # this function is recursive: if it encounters yet another letter, it will attempt to check one level further up
+
 def neighbormover(candidate,letter,board,previous)
   neighborx = candidate[:x]
   neighbory = candidate[:y]+1
@@ -132,19 +130,15 @@ def neighbormover(candidate,letter,board,previous)
   if candidatehash[0][:letter] == " "
     board.each do |overwrite|
       if overwrite[:x] == candidatehash[0][:x] && overwrite[:y] == candidatehash[0][:y]
-        puts "found a blank, placed #{letter}"
         overwrite[:letter] = letter
       end
     end
   elsif neighbor.length == 0
-      puts "neighbormover letter placement failed on candidate: #{candidatehash} , neighbor: #{neighbor}"
       return false
   elsif previous.include?([neighbor[0][:x],neighbor[0][:y]])
-    puts "neighbormover letter placement neighbor is a previous: #{candidatehash} , neighbor: #{neighbor}"
     return false
   else
     nhash = Hash[ :x, neighbor[0][:x], :y, neighbor[0][:y] ]
-    puts "found *not blank*, moving neighbor #{neighbor[0][:letter]} using #{nhash}"
     neighbormover(nhash,candidatehash[0][:letter],board,previous)
     board.each do |overwrite|
       if overwrite[:x] == candidatehash[0][:x] && overwrite[:y] == candidatehash[0][:y]
@@ -245,32 +239,19 @@ def remainingletterinsert(letter,board,previous)
     binding.pry
   end
   removefullcols = fullcol(board)
-  puts " here is neighbors before removefullcols #{neighbors}"
   if removefullcols.length > 0
     neighbors.each do |removefull|
       if removefullcols.include?(removefull[:x])
         id = neighbors.index(removefull)
         neighbors.delete_at(id)
-        puts " here is neighbors inside of removefullcols loop #{neighbors}"
       end
     end
   end
-  puts " here is neighbors after removefullcols #{neighbors}"
-
-  # if neighbors.is_a?(Hash)
-  #   temparray = []
-  #   neighbors = temparray.push neighbors
-  #   puts " had to make neighbors into an array WOOOOT\n\n\n"
-  # end
   neighbors = spacereduce(neighbors)
-  puts " here is neighbors after spacereduce #{neighbors}"
   neighbors = removeprevious(neighbors,previous,board)
-  puts " here is neighbors after removeprevious #{neighbors}"
   if neighbors.include?( {:x => (prev[:x]-1), :y => (prev[:y]-1), :letter => " "} ) && neighbors.include?( {:x => (prev[:x]-1), :y => (prev[:y]+1), :letter => " "} )
-    puts "remainingletterinsert letter placement failed on blank neighbor check, letter: #{letter}, previous: #{previous[-1]}"
     return false
   elsif neighbors.length == 0
-    puts "neighbors was zero length"
     return false
   else
     if neighbors.is_a?(Hash)
@@ -313,7 +294,7 @@ def machine(word,board)
     if result == false
       return false
     end
-    outputviewer(resultboard)
+    # outputviewer(resultboard)
     counter += 1
   end
   return resultboard, previous
@@ -328,23 +309,46 @@ def orphancheck(board)
   # make sure no orphaned spaces
 end
 
+def completecheck(board)
+  wholeboard = board.select { |num| num[:letter] == " "}
+  if wholeboard == []
+    return 0
+  else
+    return 1
+  end
+end
+
 gameboard = blankboard.clone
 solution = []
 words = []
-testwords.each do |place|
-  20.times do
-    printing = machine(place,gameboard)
-    if printing == false
-      puts "an attempt to run machine failed"
-    else
-      print printing[0]
-      gameboard = printing[0]
-      solution.push printing[1]
-      words.push place
-      break
+counter = 0
+success = 1
+until success == 0 || counter == 2000 do
+  testwords.shuffle.each do |place|
+    20.times do
+      printing = machine(place,gameboard)
+      if printing == false
+        # puts "an attempt to run machine failed"
+      else
+        # print printing[0]
+        gameboard = printing[0]
+        solution.push printing[1]
+        words.push place
+        break
+      end
     end
   end
+  counter += 1
+  # puts " counter = #{counter}"
+  success = completecheck(gameboard)
+  if success == 1
+    gameboard = blankboard.clone
+    words = []
+    solution = []
+  end
 end
+puts " "
+print gameboard
 puts " "
 print solution
 puts " "
