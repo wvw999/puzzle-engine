@@ -1,4 +1,5 @@
 require_relative 'updater'
+require_relative 'validator'
 require 'pry'
 
 class BoardSpace
@@ -285,6 +286,9 @@ class Board
       end
       counter += 1
     end
+    # print resultboard
+    # puts " "
+    # print previous
     return resultboard, previous
   end
 
@@ -311,7 +315,6 @@ class Board
   end
 
   def set_words(testwords)
-    # gameboard = blankboard.clone
     solution = []
     words = []
     counter = 0
@@ -347,6 +350,7 @@ class Board
         solution = []
       end
     end
+
     puts " "
     print gameboard
     puts " "
