@@ -301,7 +301,6 @@ class Board
     end
   end
 
-
   def board_spaces
     @board_spaces ||= begin
       board_array = []
@@ -351,13 +350,27 @@ class Board
       end
     end
 
-    puts " "
-    print gameboard
-    puts " "
-    print solution
-    puts " "
-    print words
-    return gameboard, words, solution
+    if words == []
+      return false
+    else
+      puts " "
+      print gameboard
+      puts " "
+      print solution
+      puts " "
+      print words
+      finishedboard = []
+      gameboard.each do |jerkface|
+        temparr = []
+        temparr.push jerkface[:x]
+        temparr.push jerkface[:y]
+        temparr.push jerkface[:letter]
+        finishedboard.push temparr
+      end
+      solved = Marshal.dump(solution)
+      puzzle = Puzzle.new(:board => finishedboard, :words => words, :solution => solved).save
+      return gameboard, words, solution
+    end
   end
 
 
