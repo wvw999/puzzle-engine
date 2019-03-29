@@ -21,7 +21,7 @@ Clone repo, create database following standard ruby/rails/activerecord methods, 
 
 While the vast majority of the difficult coding has been completed, the app current does not appear to do much.
 
-Run the rails server. Navigate to https://0.0.0.0:3000/puzzles , and it should return either a [built game board, word set, and solution set],  or 'false' if it was unable to complete a board.
+Run the rails server. Navigate to https://0.0.0.0:3000/puzzles , and it should return either a [built game board, word set, and solution set],  or 'false' if it was unable to complete a board. This may take 3-5 minutes.
 
 Check the database puzzles table if it completes a board, it should appear stored there. The board can later be recalled from the database.
 

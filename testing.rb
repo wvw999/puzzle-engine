@@ -14,6 +14,7 @@ testwords = ["responsibility", "position", "eastern", "search", "monkey", "media
 # splits the game board into columns in order to add a letter to one of them
 # columns are arrays of letters only
 # spaces are omitted
+
 def puzzlesplitter(board)
   tempboard = []
     xcounter = 1
