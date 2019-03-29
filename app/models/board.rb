@@ -353,18 +353,12 @@ class Board
     if words == []
       return false
     else
-      puts " "
-      print gameboard
-      puts " "
-      print solution
-      puts " "
-      print words
       finishedboard = []
-      gameboard.each do |jerkface|
+      gameboard.each do |serial|
         temparr = []
-        temparr.push jerkface[:x]
-        temparr.push jerkface[:y]
-        temparr.push jerkface[:letter]
+        temparr.push serial[:x]
+        temparr.push serial[:y]
+        temparr.push serial[:letter]
         finishedboard.push temparr
       end
       solved = Marshal.dump(solution)
