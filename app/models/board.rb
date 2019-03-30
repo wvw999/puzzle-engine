@@ -227,8 +227,14 @@ class Board
     end
     neighbors = spacereduce(neighbors)
     neighbors = removeprevious(neighbors,previous,board)
-    if neighbors.include?( {:x => (prev[:x]-1), :y => (prev[:y]-1), :letter => " "} ) && neighbors.include?( {:x => (prev[:x]-1), :y => (prev[:y]+1), :letter => " "} )
+    ddownl = board.select { |num| num[:x] == (prev[:x] - 1) && num[:y] == (prev[:y] - 2) && num[:letter] == " " }
+    ddownr = board.select { |num| num[:x] == (prev[:x] + 1) && num[:y] == (prev[:y] - 2) && num[:letter] == " " }
+    if ddownl != [] || ddownr != []
       return false
+    # elsif ddownl != [] && prev[:x] == 8
+    #   return false
+    # elsif ddownr != [] && prev[:x] == 1
+    #   return false
     elsif neighbors.length == 0
       return false
     else
